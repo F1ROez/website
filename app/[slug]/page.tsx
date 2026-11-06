@@ -29,6 +29,6 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
   const index = salons.findIndex((salon) => salon.slug === slug);
   if (index < 0) notFound();
-  if (slug === 'zerkalo') return <ZerkaloPage salon={salons[index]} index={index} />;
+  if (slug === 'zerkalo') return <ZerkaloPage salon={salons[index]} />;
   return <SalonPage salon={salons[index]} index={index} />;
 }

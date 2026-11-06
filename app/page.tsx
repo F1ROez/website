@@ -24,7 +24,7 @@ export const metadata: Metadata = active ? {
 };
 
 export default function Home() {
-  if (active?.slug === 'zerkalo') return <ZerkaloPage salon={active} index={activeIndex} />;
+  if (active?.slug === 'zerkalo') return <ZerkaloPage salon={active} />;
   if (active) return <SalonPage salon={active} index={activeIndex} />;
   return (
     <main className="collection">
