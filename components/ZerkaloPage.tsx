@@ -1,7 +1,7 @@
 import { ArrowDown, ArrowUp, ArrowUpRight, MapPin, Star } from 'lucide-react';
 import { locations, widgetFor } from '../data/locations';
 import { zerkaloContactEye, zerkaloHero, zerkaloWorks } from '../data/zerkalo-images';
-import { zerkaloOtherServices, zerkaloPrices } from '../data/zerkalo-prices';
+import { zerkaloPrices } from '../data/zerkalo-prices';
 import type { Salon } from '../data/salons';
 import { HeroBackdrop, Navigation, PriceAccordion, Reveal, WorksGallery } from './ZerkaloInteractions';
 import '@fontsource-variable/cormorant-garamond';
@@ -39,6 +39,11 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
         </section>
 
         <section id="contacts" className="zk-contacts" aria-labelledby="zk-contacts-title">
+          {eye && (
+            <div className="zk-contact-art" aria-hidden="true">
+              <img src={eye} alt="" loading="lazy" decoding="async" />
+            </div>
+          )}
           <div className="zk-wrap zk-contact-grid">
             <Reveal className="zk-contact-copy">
               <p className="zk-index"><b>01</b> Контакты</p>
@@ -57,36 +62,28 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
                 <a className="zk-link" href="https://t.me/+79230194638">Запись в Telegram <ArrowUpRight size={16} /></a>
               </div>
             </Reveal>
-            <Reveal className="zk-contact-visual">
-              {eye && (
-                <figure className="zk-eye">
-                  <img src={eye} alt="Крупный план глаза с отражением света" loading="lazy" decoding="async" />
-                  <figcaption className="zk-kicker">Взгляд в деталях</figcaption>
-                </figure>
-              )}
-              <div className="zk-map">
-                <iframe src={widgetFor(branch)} title={`Карта 2ГИС · ${branch.address}`} loading="lazy"
-                  sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation" />
-                <a href={listing} aria-label="Открыть карту в 2ГИС">
-                  <MapPin size={16} aria-hidden="true" /> <span>Открыть в 2ГИС</span> <ArrowUpRight size={16} />
-                </a>
-              </div>
+            <Reveal className="zk-map">
+              <iframe src={widgetFor(branch)} title={`Карта 2ГИС · ${branch.address}`} loading="lazy"
+                sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation" />
+              <a href={listing} aria-label="Открыть карту в 2ГИС">
+                <MapPin size={16} aria-hidden="true" /> <span>Открыть в 2ГИС</span> <ArrowUpRight size={16} />
+              </a>
             </Reveal>
           </div>
         </section>
 
-        <section id="services" className="zk-services zk-wrap" aria-labelledby="zk-services-title">
-          <Reveal className="zk-services-heading">
-            <p className="zk-index"><b>02</b> Услуги и цены</p>
-            <h2 id="zk-services-title">Меню <em>студии</em></h2>
-            <p>Выберите категорию, чтобы посмотреть услуги и стоимость.</p>
-            <a className="zk-link" href={`${listing}/tab/prices`}>Прайс в 2ГИС <ArrowUpRight size={16} /></a>
-          </Reveal>
-          <div className="zk-price">
-            <PriceAccordion groups={zerkaloPrices} />
-            <p className="zk-price-separator zk-kicker">Другие услуги из карточки 2ГИС</p>
-            <PriceAccordion groups={zerkaloOtherServices} />
-            <p className="zk-price-note">Прайс 2ГИС обновлён 28 октября 2026 года. Рядом с ценами из <a href={photos}>фотографий прайсов</a> указана дата публикации. Итоговую стоимость уточняйте при записи.</p>
+        <section id="services" className="zk-services" aria-labelledby="zk-services-title">
+          <div className="zk-wrap zk-services-grid">
+            <Reveal className="zk-services-heading">
+              <p className="zk-index"><b>02</b> Услуги и цены</p>
+              <h2 id="zk-services-title">Меню <em>студии</em></h2>
+              <p>Выберите категорию, чтобы посмотреть услуги и стоимость.</p>
+              <a className="zk-link" href={`${listing}/tab/prices`}>Прайс в 2ГИС <ArrowUpRight size={16} /></a>
+            </Reveal>
+            <div className="zk-price">
+              <PriceAccordion groups={zerkaloPrices} />
+              <p className="zk-price-note">Прайс 2ГИС обновлён 28 октября 2026 года. Итоговую стоимость уточняйте при записи.</p>
+            </div>
           </div>
         </section>
 

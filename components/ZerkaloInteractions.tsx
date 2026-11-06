@@ -69,7 +69,7 @@ export function PriceAccordion({ groups }: { groups: PriceGroup[] }) {
 
   return (
     <div className="zk-price-stack">
-      {groups.map(({ id, title, note, items }, index) => {
+      {groups.map(({ id, title, items }, index) => {
         const expanded = open.includes(id);
         const buttonId = `zk-price-${id}`;
         const panelId = `${buttonId}-panel`;
@@ -79,22 +79,16 @@ export function PriceAccordion({ groups }: { groups: PriceGroup[] }) {
               <button id={buttonId} type="button" aria-expanded={expanded} aria-controls={panelId}
                 onClick={() => setOpen((current) => expanded ? current.filter((entry) => entry !== id) : [...current, id])}>
                 <span className="zk-price-number zk-kicker" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                <span className="zk-price-label">
-                  <span>{title}</span>
-                  <span className="zk-price-subtitle">{note}</span>
-                </span>
+                <span className="zk-price-label">{title}</span>
                 <span className="zk-plus" aria-hidden="true"><Plus size={19} /></span>
               </button>
             </h3>
             <div id={panelId} className="zk-price-panel" inert={!expanded}>
               <ul aria-labelledby={buttonId}>
-                {items.map(([name, price, fromPhoto], row) => (
+                {items.map(([name, price], row) => (
                   <li key={name} style={{ '--row-delay': `${Math.min(row, 5) * 21}ms` } as CSSProperties}>
                     <span>{name}</span>
-                    <span className={price ? 'zk-price-value' : 'zk-price-value zk-unpriced'}>
-                      {price ?? 'Уточнить в студии'}
-                      {fromPhoto && <small>Фото прайса · {fromPhoto}</small>}
-                    </span>
+                    <span className="zk-price-value">{price}</span>
                   </li>
                 ))}
               </ul>
@@ -106,6 +100,14 @@ export function PriceAccordion({ groups }: { groups: PriceGroup[] }) {
   );
 }
 
+type MouseDrag = {
+  pointer: number;
+  x: number;
+  left: number;
+  moved: boolean;
+  samples: Array<{ x: number; time: number }>;
+};
+
 export function WorksGallery({ category, label, number, images }: {
   category: 'hair' | 'nails';
   label: string;
@@ -116,8 +118,9 @@ export function WorksGallery({ category, label, number, images }: {
   const dialog = useRef<HTMLDialogElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<number | null>(null);
-  const drag = useRef<{ pointer: number; x: number; left: number; moved: boolean } | null>(null);
+  const drag = useRef<MouseDrag | null>(null);
   const dragged = useRef(false);
+  const inertia = useRef<number | null>(null);
   const reduce = useReducedMotion();
   const [edges, setEdges] = useState({ start: true, end: false });
   const [selected, setSelected] = useState(0);
@@ -139,21 +142,27 @@ export function WorksGallery({ category, label, number, images }: {
     resize.observe(element);
     element.addEventListener('scroll', sync, { passive: true });
     return () => {
+      if (inertia.current !== null) cancelAnimationFrame(inertia.current);
       resize.disconnect();
       element.removeEventListener('scroll', sync);
     };
   }, [total]);
 
+  function stopInertia() {
+    if (inertia.current === null) return;
+    cancelAnimationFrame(inertia.current);
+    inertia.current = null;
+  }
+
   function scroll(direction: number) {
+    stopInertia();
     const element = track.current;
     if (!element) return;
     const [first, second] = element.children as HTMLCollectionOf<HTMLElement>;
     if (!first || !second) return;
     const step = second.offsetLeft - first.offsetLeft;
     if (!step) return;
-    const position = element.scrollLeft / step;
-    const index = direction > 0 ? Math.floor(position + .02) : Math.ceil(position - .02);
-    element.scrollTo({ left: (index + direction) * step, behavior: reduce ? 'instant' : 'smooth' });
+    element.scrollBy({ left: direction * step, behavior: reduce ? 'instant' : 'smooth' });
   }
 
   function stepPhoto(direction: number) {
@@ -161,17 +170,56 @@ export function WorksGallery({ category, label, number, images }: {
   }
 
   function startDrag(event: PointerEvent<HTMLUListElement>) {
-    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    stopInertia();
     dragged.current = false;
+    if (event.pointerType !== 'mouse' || event.button !== 0) return;
     const element = event.currentTarget;
     if (element.scrollWidth <= element.clientWidth) return;
-    drag.current = { pointer: event.pointerId, x: event.clientX, left: element.scrollLeft, moved: false };
+    drag.current = {
+      pointer: event.pointerId,
+      x: event.clientX,
+      left: element.scrollLeft,
+      moved: false,
+      samples: [{ x: event.clientX, time: event.timeStamp }],
+    };
   }
 
   function stopDrag(event: PointerEvent<HTMLUListElement>) {
     if (drag.current?.pointer !== event.pointerId) return;
     drag.current = null;
     event.currentTarget.classList.remove('is-dragging');
+  }
+
+  function releaseDrag(event: PointerEvent<HTMLUListElement>) {
+    const gesture = drag.current;
+    if (!gesture || gesture.pointer !== event.pointerId) return;
+    const element = event.currentTarget;
+    stopDrag(event);
+    if (!gesture.moved || reduce) return;
+
+    const first = gesture.samples[0];
+    const last = gesture.samples[gesture.samples.length - 1];
+    if (event.timeStamp - last.time > 90) return;
+    const speed = (first.x - last.x) / Math.max(16, event.timeStamp - first.time);
+    let velocity = Math.max(-3.2, Math.min(3.2, speed));
+    let position = element.scrollLeft;
+    let previousTime = performance.now();
+    const decayTime = 245;
+
+    function glide(time: number) {
+      const elapsed = Math.min(32, Math.max(0, time - previousTime));
+      const decay = Math.exp(-elapsed / decayTime);
+      const limit = element.scrollWidth - element.clientWidth;
+      position = Math.max(0, Math.min(limit, position + velocity * decayTime * (1 - decay)));
+      element.scrollLeft = position;
+      velocity *= decay;
+      previousTime = time;
+      inertia.current = position > 0 && position < limit && Math.abs(velocity) > .025
+        ? requestAnimationFrame(glide)
+        : null;
+    }
+
+    if (Math.abs(velocity) > .025) inertia.current = requestAnimationFrame(glide);
   }
 
   function moveDrag(event: PointerEvent<HTMLUListElement>) {
@@ -191,6 +239,10 @@ export function WorksGallery({ category, label, number, images }: {
       element.classList.add('is-dragging');
     }
     element.scrollLeft = gesture.left - distance;
+    gesture.samples.push({ x: event.clientX, time: event.timeStamp });
+    while (gesture.samples.length > 2 && event.timeStamp - gesture.samples[1].time > 105) {
+      gesture.samples.shift();
+    }
   }
 
   return (
@@ -211,9 +263,10 @@ export function WorksGallery({ category, label, number, images }: {
       {total > 0 && (
         <>
           <ul className="zk-track" id={`${id}-track`} ref={track}
-            onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={stopDrag}
+            onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={releaseDrag}
             onPointerCancel={stopDrag} onLostPointerCapture={stopDrag}
             onPointerLeave={(event) => { if (!drag.current?.moved) stopDrag(event); }}
+            onWheel={stopInertia} onKeyDown={stopInertia}
             onDragStart={(event) => event.preventDefault()}
             onClickCapture={(event) => {
               if (event.detail > 0 && dragged.current) {

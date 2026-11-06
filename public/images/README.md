@@ -4,7 +4,7 @@
 Фон первого экрана — [кадр № 2 общей галереи](https://2gis.ru/krasnoyarsk/gallery/firm/70000001088827266/photoId/30258560213387165).
 
 В портфолио собраны снимки работ с волосами, маникюра, педикюра и процесса работы.
-Галереи подхватывают WebP, JPG, PNG и AVIF при сборке. Числовые имена файлов задают порядок кадров.
+Галереи подхватывают WebP, JPG, PNG и AVIF при сборке. В стрижках первыми идут 13.webp, 15.webp и 27.webp. Остальные кадры упорядочены по именам файлов.
 
 | Файл | Фото в 2ГИС |
 | --- | --- |
@@ -26,11 +26,9 @@
 | `works/hair/15.webp` | [Длинные тёмные волосы с чёлкой и прядями у лица](https://i4.photo.2gis.com/photo-gallery/24206aea-79b2-4773-b834-9a158ccb8cc2.jpg) |
 | `works/hair/16.webp` | [Длинные светлые волосы, вид спереди в зеркале](https://i6.photo.2gis.com/photo-gallery/7baf712e-5dda-4e56-91c4-f2133708c370.jpg) |
 | `works/hair/17.webp` | [Короткая стрижка на светлых волосах, вид сверху](https://i3.photo.2gis.com/photo-gallery/af949215-3d7d-4f4d-acb8-ef7a081ec7c3.jpg) |
-| `works/hair/18.webp` | [Работа мастера с волосами в студии](https://i6.photo.2gis.com/photo-gallery/f3eb3f80-d10b-4514-91a9-864136f50e5f.jpg) |
 | `works/hair/19.webp` | [Каре на светло-русых волосах, вид сбоку](https://i5.photo.2gis.com/photo-gallery/7b69afd5-1619-44ad-855a-32ba56a1ab0e.jpg) |
 | `works/hair/20.webp` | [Короткая многослойная стрижка, вид сзади](https://i5.photo.2gis.com/photo-gallery/ad6d4dac-db8c-446c-b0a2-dfda9564fc3c.jpg) |
 | `works/hair/21.webp` | [Детская стрижка, вид сбоку](https://i8.photo.2gis.com/photo-gallery/468e2d45-447a-41c7-b4da-c1e83c102821.jpg) |
-| `works/hair/22.webp` | [Светло-русые волосы до работы мастера](https://i3.photo.2gis.com/photo-gallery/46fb00b4-7a83-4214-9835-9e79726e505c.jpg) |
 | `works/hair/23.webp` | [Светло-русые волосы после работы мастера](https://i5.photo.2gis.com/photo-gallery/fbbdcda0-04e2-4fde-b009-fb5d8ce4a922.jpg) |
 | `works/hair/24.webp` | [Прямой срез на светлых волосах, вид под углом](https://i2.photo.2gis.com/photo-gallery/4addf897-70b0-4494-9a4b-8ce774f65005.jpg) |
 | `works/hair/25.webp` | [Короткая стрижка на пепельно-светлых волосах](https://i2.photo.2gis.com/photo-gallery/190a3da0-5d68-4844-aaa6-b9f41878346b.jpg) |
@@ -56,7 +54,6 @@
 | `works/nails/16.webp` | [Розовый маникюр с рисунком и глянцем](https://i8.photo.2gis.com/photo-gallery/a641d9d4-47ce-4695-99f7-129f7f667963.jpg) |
 | `works/nails/17.webp` | [Глянцевый светло-розовый маникюр](https://i4.photo.2gis.com/photo-gallery/77374d6e-9c55-44da-8f67-4f40960a7f0e.jpg) |
 | `works/nails/18.webp` | [Тёмный педикюр с мерцающим покрытием](https://i6.photo.2gis.com/photo-gallery/93d86861-79c1-41a3-abb4-3927fa22e034.jpg) |
-| `works/nails/19.webp` | [Мастер выполняет маникюр в студии](https://i7.photo.2gis.com/photo-gallery/c6b163aa-e532-4364-8edb-0c1d1a912121.jpg) |
 | `works/nails/20.webp` | [Красный маникюр с овальной формой ногтей](https://i7.photo.2gis.com/photo-gallery/1018112e-4d57-4990-8952-d3079cbd19b5.jpg) |
 | `works/nails/21.webp` | [Светлый маникюр с чёрными кончиками](https://i0.photo.2gis.com/photo-gallery/0379993c-443f-4e5c-8e48-2d2164a33ee9.jpg) |
 | `works/nails/22.webp` | [Голубой маникюр с прозрачными блестящими кончиками](https://i5.photo.2gis.com/photo-gallery/ca87e732-a54e-4c96-bde6-f8ef790a9195.jpg) |
