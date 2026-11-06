@@ -1,4 +1,3 @@
-import { embed } from './map-embeds';
 import { salons } from './salons';
 
 type Location = {
@@ -9,13 +8,10 @@ type Location = {
   action?: string;
   phone?: string;
   hours?: string;
-  embed: string;
   coordinates: string;
 };
 
-type MapKey = Parameters<typeof embed>[0];
-
-const coordinates: Record<MapKey, string> = {
+const coordinates = {
   parus: '92.903361,55.999471',
   bog: '92.83792,56.006347',
   ok: '92.922221,56.035397',
@@ -34,8 +30,10 @@ const coordinates: Record<MapKey, string> = {
   zerkalo: '92.892982,56.052976',
 };
 
+type MapKey = keyof typeof coordinates;
+
 function location(key: MapKey, id: string, address: string, details: Partial<Location> = {}): Location {
-  return { id, address, embed: embed(key), coordinates: coordinates[key], ...details };
+  return { id, address, coordinates: coordinates[key], ...details };
 }
 
 const mainKeys: MapKey[] = ['parus', 'amb', 'rub', 'mirrors', 'suns', 'lomako', 'karina', 'seasons', 't', 'zerkalo'];
@@ -71,8 +69,14 @@ locations.ambassador[0].phone = '+7 (391) 286-64-47';
 locations.rubleva[0].phone = '+7 (903) 921-97-77';
 locations['four-suns'][0].phone = '+7 (902) 990-56-54';
 
-export function mapFor(branch: Location) {
-  return `https://2gis.ru/krasnoyarsk/firm/${branch.id}`;
+export function widgetFor(branch: Location) {
+  const [lon, lat] = branch.coordinates.split(',').map(Number);
+  const options = {
+    pos: { lat, lon, zoom: 17 },
+    opt: { city: 'krasnoyarsk' },
+    org: branch.id,
+  };
+  return `https://widgets.2gis.com/widget?type=firmsonmap&options=${encodeURIComponent(JSON.stringify(options))}`;
 }
 
 export function routeFor(branch: Location) {

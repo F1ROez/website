@@ -5,7 +5,7 @@ import type { CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, MapPin, Menu, X } from 'lucide-react';
 import { images, detailImages, photoAtWidth } from '../data/images';
-import { locations, mapFor, routeFor } from '../data/locations';
+import { locations, routeFor, widgetFor } from '../data/locations';
 import { editorials } from '../data/editorials';
 import type { Salon } from '../data/salons';
 
@@ -132,14 +132,8 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
               Построить маршрут в 2ГИС<ArrowUpRight size={17} />
             </a>
           </div>
-          <div className="contact-map-panel">
-            <iframe key={branch.id} className="contact-map" src={branch.embed} title={`Карта 2ГИС · ${branch.address}`}
-              loading="lazy" allow="fullscreen 'none'"
-              sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation" />
-            <a className="text-link contact-map-link" href={mapFor(branch)} target="_blank" rel="noreferrer">
-              Посмотреть на карте Красноярска <ArrowUpRight size={17} />
-            </a>
-          </div>
+          <iframe key={branch.id} className="contact-map" src={widgetFor(branch)} title={`Карта 2ГИС · ${branch.address}`}
+            loading="lazy" sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation" />
         </section>
       </main>
 

@@ -9,20 +9,7 @@
 .skip-link:focus { transform: translateY(0); }
 .salon .about-art { margin: 0; position: relative; background: color-mix(in srgb, var(--bg), var(--accent) 14%); }
 .salon .contacts { align-items: center; }
-.contact-map-panel { min-width: 0; }
-.contact-map {
-  display: block;
-  border: 0;
-  width: 100%;
-  height: 420px;
-  background: #e6e9e2;
-  /* The 2GIS iframe owns its controls. Clip its fullscreen corner from view and pointer input. */
-  --fullscreen-corner: 48px;
-  clip-path: polygon(0 0, calc(100% - var(--fullscreen-corner)) 0,
-    calc(100% - var(--fullscreen-corner)) var(--fullscreen-corner), 100% var(--fullscreen-corner),
-    100% 100%, 0 100%);
-}
-.contact-map-link { margin-top: 14px; min-height: 44px; }
+.contact-map { display: block; border: 0; width: 100%; height: 420px; background: #e6e9e2; }
 .branch-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
 .branch-list button {
   min-height: 44px; padding: 8px 13px; font-size: 13px; color: inherit; background: transparent;
