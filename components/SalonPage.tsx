@@ -169,13 +169,12 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
                 </div>
               </div>
             </div>
-            {(multipleBranches || branch.phone || ['zerkalo', 'karina-meyskaya'].includes(salon.slug)) && (
+            {(multipleBranches || branch.phone || salon.slug === 'karina-meyskaya') && (
               <div className="contact-actions">
                 {multipleBranches && <a className="button" href={action}>{label}<ArrowUpRight size={18} /></a>}
                 {branch.phone && phoneHref && action !== phoneHref &&
                   <a className="text-link" href={phoneHref}>{branch.phone}</a>}
                 {branch.phone && action === phoneHref && <span className="contact-phone">{branch.phone}</span>}
-                {salon.slug === 'zerkalo' && <a className="text-link" href="https://t.me/+79230194638">Запись в Telegram</a>}
                 {salon.slug === 'karina-meyskaya' && <a className="text-link" href="https://t.me/+79330269666">Запись в Telegram</a>}
               </div>
             )}

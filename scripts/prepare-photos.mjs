@@ -4,6 +4,9 @@ import { join } from 'node:path';
 import sharp from 'sharp';
 import sources from '../data/photo-sources.json' with { type: 'json' };
 
+// The standalone Zerkalo build uses only approved assets committed under public/images.
+if (process.env.SALON_SLUG === 'zerkalo') process.exit(0);
+
 const root = new URL('../', import.meta.url);
 const destination = new URL('public/salon-photos/', root);
 const cache = new URL('.salon-photo-cache.json', root);

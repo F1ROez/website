@@ -84,6 +84,7 @@ locations['four-seasons'][0].phone = '+7 (391) 227-40-41';
 locations.ambassador[0].phone = '+7 (391) 286-64-47';
 locations.rubleva[0].phone = '+7 (903) 921-97-77';
 locations['four-suns'][0].phone = '+7 (902) 990-56-54';
+locations.zerkalo[0].phone = '+7 (923) 019-46-38';
 
 export function widgetFor(branch: Location) {
   const [lon, lat] = branch.coordinates.split(',').map(Number);

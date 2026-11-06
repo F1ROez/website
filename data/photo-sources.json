@@ -88,15 +88,5 @@
       "src": "https://avatars.mds.yandex.net/get-maps-adv-crm/13303822/2a0000019d7d0355d03db1631f5d5801f6eb/landing_background",
       "alt": "Вход в торговый центр «Полтавский», где находится T-Студио"
     }
-  },
-  "zerkalo": {
-    "hero": {
-      "src": "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&q=78&w=1440",
-      "alt": "Портрет в нейтральных тонах"
-    },
-    "detail": {
-      "src": "https://images.unsplash.com/photo-1637777277435-3c44f82fd0c9?auto=format&fit=crop&q=78&w=1440",
-      "alt": "Иллюстрация парикмахерского направления"
-    }
   }
 }
