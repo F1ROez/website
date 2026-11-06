@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import SalonPage from '../../components/SalonPage';
-import { images } from '../../data/images';
+import { salonHero } from '../../data/images';
 import { salons } from '../../data/salons';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: `${salon.name} · Красноярск`,
     description: salon.description,
-    openGraph: { title: salon.name, description: salon.description, images: [images[index]] },
+    openGraph: { title: salon.name, description: salon.description, images: [salonHero(salon.slug, index)] },
     robots: { index: false, follow: false },
   };
 }

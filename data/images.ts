@@ -27,5 +27,97 @@ export const detailImages = [
 ].map(image);
 
 export function photoAtWidth(url: string) {
+  if (!url.startsWith('https://images.unsplash.com/')) return undefined;
   return [480, 800, 1120, 1440].map((width) => `${url.replace(/&w=\d+$/, `&w=${width}`)} ${width}w`).join(', ');
+}
+
+type SalonPhoto = { src: string; alt: string };
+type SalonPhotos = { hero?: SalonPhoto; detail?: SalonPhoto };
+
+// Keyed by the same slug as the salon page so similar names cannot share a photo set.
+const salonPhotos: Partial<Record<string, SalonPhotos>> = {
+  'like-me': {
+    hero: {
+      src: 'https://sabyget.ru/disk/api/v1/00bb2376-d18d-4eb9-b073-cc9ae7a480cd_efaa6619-4e79-4927-8050-3966f78da657',
+      alt: 'Окрашивание на длинных волосах из галереи Like Me на Парусной',
+    },
+    detail: {
+      src: 'https://sabyget.ru/disk/api/v1/0060693d-b281-4f2a-9bf7-4a18e184cd78_9eee22c5-27d6-4a7a-acee-e04a907e4eb3',
+      alt: 'Глаз и ресницы крупным планом из галереи Like Me на Парусной',
+    },
+  },
+  ambassador: {
+    hero: {
+      src: 'https://ambassador-pro.ru/wp-content/uploads/2020/02/blon1-1-1024x683.jpg',
+      alt: 'Два варианта светлого окрашивания из портфолио «Амбассадора»',
+    },
+    detail: {
+      src: 'https://ambassador-pro.ru/wp-content/uploads/2020/02/120220-5-870x653.jpg',
+      alt: 'Длинные каштановые волосы до и после процедуры из портфолио «Амбассадора»',
+    },
+  },
+  rubleva: {
+    hero: {
+      src: 'https://rubleva-studio.ru/assets/gallery/7/1142.JPG',
+      alt: 'Интерьер мастерской красоты «Рублёва»',
+    },
+    detail: {
+      src: 'https://rubleva-studio.ru/assets/gallery/2/1146.jpg',
+      alt: 'Окрашивание и стрижка от Натальи Рублёвой',
+    },
+  },
+  'four-suns': {
+    hero: {
+      src: 'https://static.tildacdn.com/tild3039-3862-4264-b231-623664333466/002_resized_4_1.jpg',
+      alt: 'Парикмахерский зал «Четырёх Солнц» с круглыми зеркалами',
+    },
+    detail: {
+      src: 'https://static.tildacdn.com/tild3563-3430-4662-a366-363133646538/139_resized_1.jpg',
+      alt: 'Мастер в парикмахерском зале «Четырёх Солнц»',
+    },
+  },
+  yestwobeauty: {
+    hero: {
+      src: 'https://static.tildacdn.com/tild6635-3338-4439-b133-313266626533/Yes_2_Beaty_-1.jpg',
+      alt: 'Стойка администратора и зона ожидания в салоне YEStwoBEAUTY',
+    },
+    detail: {
+      src: 'https://static.tildacdn.com/tild3133-3039-4266-a434-646331323336/Yes_2_beauty_10_1.jpg',
+      alt: 'Кресло и зеркало в салоне YEStwoBEAUTY',
+    },
+  },
+  'karina-meyskaya': {
+    hero: {
+      src: 'https://f1.dikidi.net/c3/v2589/ha10mc7d8c.jpg',
+      alt: 'Парикмахерское кресло и зеркало в студии Карины Мейской',
+    },
+    detail: {
+      src: 'https://f1.dikidi.net/c3/v2589/1qd5b6lrj9.jpg',
+      alt: 'Фирменный знак студии Карины Мейской',
+    },
+  },
+  'four-seasons': {
+    hero: {
+      src: 'https://4-seasons.ru/upload/iblock/25c/krasnoyarsk_pr_mira_52a_wellness_tsentr_4_nbsp_sezona.jpg',
+      alt: 'Стойка администратора велнес-центра «4 сезона» на проспекте Мира, 52а',
+    },
+    detail: {
+      src: 'https://4-seasons.ru/upload/iblock/1b4/o7pr7qasfr31ls2k3nhrk4egd71f00f7/laboratoriya_stilya.png',
+      alt: 'Окрашивание волос на иллюстрации раздела «Лаборатория стиля»',
+    },
+  },
+  't-studio': {
+    detail: {
+      src: 'https://avatars.mds.yandex.net/get-maps-adv-crm/13303822/2a0000019d7d0355d03db1631f5d5801f6eb/landing_background',
+      alt: 'Вход в торговый центр «Полтавский», где находится T-Студио',
+    },
+  },
+};
+
+export function salonHero(slug: string, index: number) {
+  return salonPhotos[slug]?.hero?.src ?? images[index];
+}
+
+export function salonPhotoSet(slug: string) {
+  return salonPhotos[slug];
 }

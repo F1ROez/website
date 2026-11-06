@@ -572,3 +572,32 @@
   .design-6 .hero-image { width: min(76%, 345px); margin-inline: auto; height: clamp(220px, 64vw, 360px); }
   .design-8 .hero-image { transform: none; box-shadow: 6px 6px 0 #d5baa641; }
 }
+
+/* Photography crops follow the actual assets from each salon's own material. */
+.design-0 { --photo-position: 53% 43%; }
+.design-0 .hero-image { background: #251e19; }
+.design-0 .about-art img { object-position: 50% 52%; }
+.design-0 .about-art { border: 1px solid #a787685c; }
+.design-1 { --photo-position: 53% 42%; }
+.design-1 .hero-image img { object-fit: contain; }
+.design-1 .about-art img { object-position: 50% 43%; }
+.design-2 { --photo-position: 48% 58%; }
+.design-2 .about-art img { object-position: 50% 40%; }
+.design-4 .hero-image::after {
+  background: radial-gradient(ellipse at 50% 45%, #21180fea, #21180fa6 67%, #21180f40);
+}
+.design-5 { --photo-position: 52% 49%; }
+.design-5 .about-art img { object-position: 52% 43%; }
+.design-6 { --photo-position: 48% 72%; }
+.design-6 .about-art { background: #333; }
+.design-6 .about-art img { object-fit: contain; }
+.design-7 { --photo-position: 78% 50%; }
+.design-7 .hero-image { border-radius: 10px; }
+.design-7 .about-art img { object-position: 56% 37%; }
+.design-8 .about-art { background: linear-gradient(125deg, #52382f, #302321); }
+.design-8 .about-art img { object-fit: contain; }
+@media (max-width: 680px) {
+  .design-4 .hero-image::after { display: none; }
+  .design-6 .about-art { border-radius: 12px; }
+  .design-8 .about-art { height: clamp(240px, 70vw, 320px); }
+}
