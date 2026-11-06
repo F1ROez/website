@@ -1,14 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, Menu, X } from 'lucide-react';
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from 'react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Hand, Maximize2, Menu, Plus, X } from 'lucide-react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import type { PriceGroup } from '../data/zerkalo-prices';
 
 const links = [
-  ['О студии', '#about'],
-  ['Работы', '#works'],
-  ['Услуги', '#services'],
+  ['Главная', '#main'],
   ['Контакты', '#contacts'],
+  ['Услуги и цены', '#services'],
+  ['Портфолио', '#works'],
 ];
 
 export function Navigation({ name, booking }: { name: string; booking: string }) {
@@ -63,6 +64,48 @@ export function Reveal({ className, children }: { className?: string; children: 
   );
 }
 
+export function PriceAccordion({ groups }: { groups: PriceGroup[] }) {
+  const [open, setOpen] = useState<string[]>([]);
+
+  return (
+    <div className="zk-price-stack">
+      {groups.map(({ id, title, note, items }, index) => {
+        const expanded = open.includes(id);
+        const buttonId = `zk-price-${id}`;
+        const panelId = `${buttonId}-panel`;
+        return (
+          <div className="zk-price-group" data-open={expanded} key={id}>
+            <h3>
+              <button id={buttonId} type="button" aria-expanded={expanded} aria-controls={panelId}
+                onClick={() => setOpen((current) => expanded ? current.filter((entry) => entry !== id) : [...current, id])}>
+                <span className="zk-price-number zk-kicker" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <span className="zk-price-label">
+                  <span>{title}</span>
+                  <span className="zk-price-subtitle">{note}</span>
+                </span>
+                <span className="zk-plus" aria-hidden="true"><Plus size={19} /></span>
+              </button>
+            </h3>
+            <div id={panelId} className="zk-price-panel" inert={!expanded}>
+              <ul aria-labelledby={buttonId}>
+                {items.map(([name, price, fromPhoto], row) => (
+                  <li key={name} style={{ '--row-delay': `${Math.min(row, 5) * 21}ms` } as CSSProperties}>
+                    <span>{name}</span>
+                    <span className={price ? 'zk-price-value' : 'zk-price-value zk-unpriced'}>
+                      {price ?? 'Уточнить в студии'}
+                      {fromPhoto && <small>Фото прайса · {fromPhoto}</small>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function WorksGallery({ category, label, number, images }: {
   category: 'hair' | 'nails';
   label: string;
@@ -73,6 +116,8 @@ export function WorksGallery({ category, label, number, images }: {
   const dialog = useRef<HTMLDialogElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<number | null>(null);
+  const drag = useRef<{ pointer: number; x: number; left: number; moved: boolean } | null>(null);
+  const dragged = useRef(false);
   const reduce = useReducedMotion();
   const [edges, setEdges] = useState({ start: true, end: false });
   const [selected, setSelected] = useState(0);
@@ -115,12 +160,46 @@ export function WorksGallery({ category, label, number, images }: {
     setSelected((current) => (current + direction + total) % total);
   }
 
+  function startDrag(event: PointerEvent<HTMLUListElement>) {
+    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    dragged.current = false;
+    const element = event.currentTarget;
+    if (element.scrollWidth <= element.clientWidth) return;
+    drag.current = { pointer: event.pointerId, x: event.clientX, left: element.scrollLeft, moved: false };
+  }
+
+  function stopDrag(event: PointerEvent<HTMLUListElement>) {
+    if (drag.current?.pointer !== event.pointerId) return;
+    drag.current = null;
+    event.currentTarget.classList.remove('is-dragging');
+  }
+
+  function moveDrag(event: PointerEvent<HTMLUListElement>) {
+    const gesture = drag.current;
+    if (!gesture || gesture.pointer !== event.pointerId) return;
+    if (!(event.buttons & 1)) {
+      stopDrag(event);
+      return;
+    }
+    const distance = event.clientX - gesture.x;
+    if (!gesture.moved && Math.abs(distance) < 7) return;
+    const element = event.currentTarget;
+    if (!gesture.moved) {
+      gesture.moved = true;
+      dragged.current = true;
+      element.setPointerCapture(event.pointerId);
+      element.classList.add('is-dragging');
+    }
+    element.scrollLeft = gesture.left - distance;
+  }
+
   return (
     <div className="zk-gallery" aria-labelledby={id}>
       <Reveal className="zk-wrap zk-gallery-head">
         <span className="zk-kicker" aria-hidden="true">{number} /</span>
         <h3 id={id}>{label}</h3>
         {total > 0 ? <div className="zk-gallery-arrows" role="group" aria-label={`Прокрутка галереи «${label}»`}>
+          <span className="zk-gallery-hint"><Hand size={15} aria-hidden="true" /> Листайте · {total} фото</span>
           <button type="button" aria-label="Прокрутить влево" aria-controls={`${id}-track`} disabled={edges.start} onClick={() => scroll(-1)}>
             <ArrowLeft size={19} />
           </button>
@@ -131,7 +210,17 @@ export function WorksGallery({ category, label, number, images }: {
       </Reveal>
       {total > 0 && (
         <>
-          <ul className="zk-track" id={`${id}-track`} ref={track}>
+          <ul className="zk-track" id={`${id}-track`} ref={track}
+            onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={stopDrag}
+            onPointerCancel={stopDrag} onLostPointerCapture={stopDrag}
+            onPointerLeave={(event) => { if (!drag.current?.moved) stopDrag(event); }}
+            onDragStart={(event) => event.preventDefault()}
+            onClickCapture={(event) => {
+              if (event.detail > 0 && dragged.current) {
+                dragged.current = false;
+                event.stopPropagation();
+              }
+            }}>
             {images.map(({ src, alt }, index) => (
               <li key={src}>
                 <button type="button" aria-label={`${label} · открыть фото ${index + 1} из ${total}`}
@@ -140,7 +229,7 @@ export function WorksGallery({ category, label, number, images }: {
                     dialog.current?.showModal();
                     closeButton.current?.focus();
                   }}>
-                  <img src={src} alt={alt} loading="lazy" decoding="async" />
+                  <img src={src} alt={alt} loading="lazy" decoding="async" draggable={false} />
                   <span className="zk-expand" aria-hidden="true"><Maximize2 size={17} /></span>
                 </button>
                 <span className="zk-kicker" aria-hidden="true">Zerkalo / {String(index + 1).padStart(2, '0')}</span>
