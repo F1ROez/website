@@ -42,7 +42,9 @@
 .collection .preview:is(.preview-2,.preview-5,.preview-6,.preview-9) :is(small,h2,p,svg) { color: #29251f; }
 .collection .preview-6 img { border-radius: 48% 48% 0 0; }
 .collection .preview-4 > div { text-align: center; inset-inline: 12%; }
-.collection .preview-1 img { width: 56%; margin-left: auto; opacity: .72; }
+.collection .preview-1 img { width: 56%; margin-left: auto; opacity: 1; }
+.collection .preview-1 > div { width: 44%; inset: 18% auto auto 6%; }
+.collection .preview-2 img { object-position: center 47%; }
 .collection .preview-3 > div { inset-block: auto 12%; }
 .collection .preview-5 h2, .collection .preview-9 h2 { font-family: Arial, sans-serif; font-weight: 600; }
 @media (max-width: 640px) {
@@ -301,51 +303,115 @@
 .salon footer { margin: 0; padding: 24px var(--gutter); gap: 10px; background: var(--bg); color: var(--muted); }
 .salon footer .wordmark { color: var(--ink); font-size: clamp(22px, 2vw, 30px); }
 
-/* 01 — Like Me: an uninterrupted photograph, a warm side light and a low, tactile menu. */
-.design-0 {
-  --photo-position: 66% 50%;
-  --surface: #2b241e;
-  --surface-radius: 10px;
-  --hero-wash: radial-gradient(ellipse at 20% 55%, #382b22, transparent 66%), #181715;
-  --section-wash: linear-gradient(150deg, #34281e, #181715 74%);
+/* Shared type and layout refinements for the salon pages. */
+.salon {
+  --gutter: max(clamp(22px, 6vw, 92px), calc((100% - 1320px) / 2));
+  --tone: color-mix(in srgb, var(--accent) 80%, var(--ink));
+  --panel: color-mix(in srgb, var(--surface) 76%, var(--bg));
 }
-.design-0 .hero {
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
-  min-height: clamp(490px, 46vw, 680px);
+.salon .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .18em; }
+.salon .hero-copy > .eyebrow, .salon .section-heading .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.design-0 .hero-image {
-  position: absolute;
-  grid-area: auto;
-  inset: 0 0 0 27%;
-  z-index: -1;
+.salon .hero-copy > .eyebrow::before, .salon .section-heading .eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--tone);
+}
+.salon .hero .intro { max-width: 40ch; }
+.salon .hero-bottom span {
+  width: fit-content;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid var(--edge);
+  border-radius: var(--surface-radius);
+  background: var(--panel);
+}
+.salon .button { font-weight: 700; }
+.salon .text-link { text-underline-offset: 4px; }
+.salon .text-link:hover { text-decoration: underline; border-color: transparent; }
+.salon .section-heading { padding-bottom: 17px; border-bottom: 1px solid var(--edge); }
+.salon .section-heading > p:last-child { max-width: 39ch; }
+.salon .service {
   min-height: 0;
-  border-radius: 0;
+  padding: clamp(14px, 1.8vw, 24px);
+  gap: 10px;
 }
-.design-0 .hero-image::after {
-  display: block;
-  background: linear-gradient(90deg, #211c18 0%, #211c18e8 24%, #211c182e 72%),
-    linear-gradient(0deg, #181715c2, transparent 38%);
+.salon .service-number { font: 600 10px/1.4 Arial, sans-serif; letter-spacing: .13em; }
+.salon .service > div > span {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
-.design-0 .hero-copy { max-width: 650px; text-shadow: 0 2px 22px #171210b0; }
-.design-0 .hero .intro { color: #f0e4d9; }
-.design-0 .service { background: linear-gradient(145deg, #382b21, #27211b); }
+.salon .catalog-items li span + span { font-weight: 600; }
+.salon .about { border-top: 1px solid var(--edge); }
+.salon .about > div { max-width: 58ch; }
+.salon .contact-copy {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(18px, 3vw, 38px);
+  border: 1px solid var(--edge);
+  border-radius: var(--surface-radius);
+  background: var(--panel);
+}
+.salon .contact-map { height: clamp(350px, 33vw, 450px); }
+.salon .contact-actions .button { max-width: 100%; }
 
-/* 02 — Ambassador: restrained bronze rules, dark backdrop and a portrait in a gallery frame. */
+/* Like Me */
+.design-0 {
+  --photo-position: 52% 42%;
+  --surface: #2b241e;
+  --surface-radius: 18px;
+  --hero-wash: radial-gradient(ellipse at 35% 28%, #382c23, transparent 69%), #181715;
+  --section-wash: linear-gradient(135deg, #2d241d, #181715 76%);
+}
+.design-0 .hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+.design-0 .hero-image {
+  border-radius: 38% 38% 18px 18px;
+  outline: 1px solid #b99b7c70;
+  outline-offset: 5px;
+}
+.design-0 .about-art img { object-position: 50% 48%; }
+.design-0 .service { background: linear-gradient(150deg, #3a2e23, #29221c); }
+.design-0 .branch-rating svg { color: #e1c5a8; }
+
+/* Амбассадор */
 .design-1 {
-  --photo-position: 50% 37%;
   --cta-bg: #e7b77f;
   --surface: #30261e;
   --surface-radius: 2px;
-  --hero-wash: radial-gradient(ellipse at 78% 45%, #55402c, transparent 62%), #22201d;
-  --section-wash: linear-gradient(105deg, #30261d, #22201d 64%);
+  --hero-wash: radial-gradient(ellipse at 78% 30%, #533b29, transparent 67%), #22201d;
+  --section-wash: linear-gradient(110deg, #32271f, #22201d 69%);
 }
-.design-1 .hero-image { outline: 1px solid #bd8f5d; outline-offset: 7px; }
+.design-1 .hero { grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr); }
 .design-1 .hero h1 { color: #fff2e3; }
-.design-1 .service { border-inline: 0; border-bottom: 0; background: none; }
+.design-1 .hero-image {
+  min-height: 0;
+  align-self: center;
+  aspect-ratio: 1024 / 683;
+  outline: 1px solid #b48456;
+  outline-offset: 7px;
+  box-shadow: 0 17px 45px #1b120c70;
+}
+.design-1 .about-art { height: auto; aspect-ratio: 870 / 653; }
+.design-1 .service {
+  display: grid;
+  grid-template-columns: 25px minmax(0, 1fr) auto;
+  align-items: baseline;
+  border-width: 0 0 1px;
+  background: transparent;
+}
+.design-1 .service h3 { margin: 0; }
+.design-1 .service > div { text-align: end; }
+.design-1 .catalog-card { border-top-color: #b48456; }
 
-/* 03 — Рублёва: a terracotta editorial spread on warm paper. */
+/* Рублёва */
 .design-2 {
-  --photo-position: 50% 42%;
+  --photo-position: 48% 52%;
   --ink: #33241e;
   --muted: #5e4940;
   --surface: #e7dacb;
@@ -353,16 +419,23 @@
   --cta-bg: #873e32;
   --cta-ink: #fff7ed;
   --focus: #873e32;
-  --hero-wash: repeating-linear-gradient(0deg, #7b382d09 0 1px, transparent 1px 24px),
-    linear-gradient(125deg, #f4ede2, #eadbcc);
-  --section-wash: linear-gradient(105deg, #efe4d7, #e8d9cb);
+  --hero-wash: radial-gradient(ellipse at 75% 24%, #f8f1e8, transparent 66%), #eadbcc;
+  --section-wash: linear-gradient(110deg, #f3eae0, #e8d9cb);
 }
-.design-2 .hero { grid-template-columns: minmax(0, 1fr) minmax(0, .8fr); }
+.design-2 .hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); }
 .design-2 .hero h1 { color: #79392f; }
-.design-2 .hero-image { box-shadow: 9px 9px 0 #a2473745; }
-.design-2 .service { border-width: 1px 0 0; background: transparent; }
+.design-2 .hero-image {
+  max-height: 505px;
+  outline: 1px solid #986556;
+  outline-offset: 5px;
+  box-shadow: 13px 13px 0 #bf8e796e;
+}
+.design-2 .service-grid { gap: 0; border: 1px solid #9e71604f; }
+.design-2 .service { border: 0; background: #f4e9dd80; }
+.design-2 .service:nth-child(even) { background: #d6b7a52b; }
+.design-2 .about-art img { object-position: 50% 61%; }
 
-/* 04 — Зеркала: an asymmetric steel-blue composition with a lower text panel. */
+/* Зеркала */
 .design-3 {
   --photo-position: 62% 43%;
   --ink: #f2f4f7;
@@ -372,47 +445,51 @@
   --cta-ink: #172129;
   --focus: #c6ddf6;
   --surface-radius: 2px;
-  --hero-wash: linear-gradient(120deg, #263442, #171b20 74%);
+  --hero-wash: linear-gradient(122deg, #273545, #171b20 68%);
   --section-wash: linear-gradient(115deg, #232d37, #171b20 78%);
 }
-.design-3 .hero { min-height: clamp(505px, 47vw, 690px); }
-.design-3 .hero-image { position: absolute; grid-area: auto; inset: 0 0 0 29%; min-height: 0; z-index: -1; border-radius: 0; }
+.design-3 .hero { min-height: clamp(460px, 43vw, 620px); }
+.design-3 .hero-image { position: absolute; grid-area: auto; inset: 0 0 0 31%; min-height: 0; z-index: -1; }
 .design-3 .hero-image::after {
   display: block;
-  background: linear-gradient(90deg, #202a34 0%, #171b20b3 38%, #171b2020 82%),
-    linear-gradient(0deg, #171b20 0%, #171b2059 38%, transparent 68%);
+  background: linear-gradient(90deg, #202a34 0%, #171b20d9 34%, #171b201a 82%),
+    linear-gradient(0deg, #171b20 0%, transparent 48%);
 }
-.design-3 .hero-copy { align-self: end; padding-block: 28px 8px; }
+.design-3 .hero-copy { align-self: end; }
 .design-3 .hero h1 { font-weight: 700; }
-.design-3 .service { background: linear-gradient(135deg, #2b3744, #222a32); }
+.design-3 .service { border-inline-start: 3px solid #99aabd; background: linear-gradient(135deg, #2b3744, #222a32); }
+.design-3 .service h3 { font-family: Arial, sans-serif; font-weight: 600; letter-spacing: -.025em; }
 
-/* 05 — Четыре Солнца: a centered composition and softened ochre arches. */
+/* Четыре Солнца */
 .design-4 {
-  --photo-position: center 41%;
+  --photo-position: center 57%;
   --ink: #fff1dd;
   --muted: #f1e1cc;
   --cta-bg: #efbf79;
   --cta-ink: #2f1e10;
   --surface: #382d1f;
   --surface-radius: 8px;
+  --hero-wash: radial-gradient(ellipse at 50% 10%, #4d3821, transparent 70%), #29251e;
   --section-wash: radial-gradient(ellipse at 50% 0%, #473520, transparent 72%), #29251e;
 }
-.design-4 .hero { grid-template-columns: minmax(0, 1fr); min-height: clamp(480px, 46vw, 635px); }
-.design-4 .hero-image { position: absolute; grid-area: auto; inset: 0; min-height: 0; z-index: -1; border-radius: 0; }
-.design-4 .hero-image::after { display: block; background: radial-gradient(ellipse at 50% 44%, #21180fd9, #21180f83 90%); }
-.design-4 .hero-copy { justify-self: center; max-width: 740px; }
-.design-4 .hero .intro { margin-inline: auto; }
-.design-4 .hero-bottom { justify-self: center; }
-.design-4 .service {
-  min-height: 125px;
-  padding-top: 23px;
-  border-radius: 34px 34px 5px 5px;
-  background: linear-gradient(160deg, #443421, #30271d);
+.design-4 .hero { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto; gap: 19px; }
+.design-4 .hero-image {
+  grid-column: 1;
+  grid-row: 2;
+  min-height: clamp(230px, 28vw, 410px);
+  border-radius: min(12vw, 105px) min(12vw, 105px) 8px 8px;
+  outline: 1px solid #bd925b8c;
+  outline-offset: 5px;
 }
+.design-4 .hero-copy { justify-self: center; max-width: 780px; }
+.design-4 .hero-copy > .eyebrow { justify-content: center; }
+.design-4 .hero .intro { margin-inline: auto; }
+.design-4 .hero-bottom { grid-row: 3; justify-self: center; }
+.design-4 .service { border-radius: 28px 28px 5px 5px; background: linear-gradient(160deg, #493724, #30271d); }
 
-/* 06 — YES: image-first magazine spread with a contrasting cream catalogue. */
+/* YEStwoBEAUTY */
 .design-5 {
-  --photo-position: center 46%;
+  --photo-position: 52% 49%;
   --ink: #322820;
   --muted: #57483a;
   --surface: #e9dfd2;
@@ -420,65 +497,84 @@
   --cta-ink: #fff9ef;
   --focus: #594738;
   --surface-radius: 1px;
-  --hero-wash: linear-gradient(110deg, #e6d9c8, #f4eee6 64%);
+  --hero-wash: linear-gradient(110deg, #ded0bd, #f7f1e9 70%);
   --section-wash: linear-gradient(120deg, #e9dfd1, #f4eee6);
 }
-.design-5 .hero { grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr); }
-.design-5 .hero-image { grid-column: 1; }
+.design-5 .hero { grid-template-columns: minmax(0, 1fr) minmax(0, .88fr); }
+.design-5 .hero-image { grid-column: 1; border: 7px solid #f7f1e9; box-shadow: 0 12px 32px #463a2933; }
 .design-5 .hero-copy, .design-5 .hero-bottom { grid-column: 2; }
 .design-5 .hero h1 { font-weight: 700; }
-.design-5 .service { border-width: 0 0 1px; background: #f5eee6; }
+.design-5 .service { border-width: 0 0 1px; background: #f8f0e7; }
+.design-5 .catalog-group[open] { background: #f8f0e7; }
+.design-5 .about-art img { object-position: 52% 54%; }
 
-/* 07 — Карина Мейская: soft pink light, an arched portrait and wine-colored actions. */
+/* Карина Мейская */
 .design-6 {
-  --photo-position: center 34%;
+  --photo-position: 48% 61%;
   --ink: #38262d;
   --muted: #60434d;
   --surface: #f2e1df;
   --cta-bg: #763e4a;
   --cta-ink: #fff8f7;
   --focus: #763e4a;
-  --surface-radius: 14px;
-  --hero-wash: radial-gradient(ellipse at 75% 37%, #e5c9c6, transparent 62%), #f2e9e4;
-  --section-wash: linear-gradient(140deg, #f2e7e3, #ead8d6);
+  --surface-radius: 15px;
+  --hero-wash: radial-gradient(ellipse at 73% 33%, #e0bdb9, transparent 64%), #f2e9e4;
+  --section-wash: linear-gradient(140deg, #f6ebe6, #ead8d6);
 }
-.design-6 .hero-image { border-radius: 47% 47% 8px 8px; }
-.design-6 .about-art { border-radius: 42% 42% 10px 10px; }
+.design-6 .hero { grid-template-columns: minmax(0, 1.17fr) minmax(0, .83fr); }
+.design-6 .hero-image {
+  border-radius: 47% 47% 8px 8px;
+  border: 5px solid #f5e5e0;
+  outline: 1px solid #9a6669;
+  outline-offset: 3px;
+}
+.design-6 .about-art { background: #333; border-radius: var(--surface-radius); }
+.design-6 .about-art img { object-fit: contain; }
 .design-6 .button { border-radius: 999px; }
-.design-6 .service { background: #f7ebe8; }
+.design-6 .service { background: #f9eeeb; box-shadow: 0 4px 13px #6e414a12; }
+.design-6 .service-number { color: #763e4a; }
 
-/* 08 — 4 сезона: layered forest green and an open, readable style laboratory. */
+/* 4 сезона */
 .design-7 {
-  --photo-position: center 48%;
+  --photo-position: 70% 50%;
   --ink: #f2f1e7;
   --muted: #d7e0d2;
   --surface: #293b33;
   --cta-bg: #c5d4b7;
   --cta-ink: #203025;
   --focus: #d0e8ba;
-  --surface-radius: 8px;
-  --hero-wash: radial-gradient(ellipse at 21% 58%, #344d3e, transparent 68%), #1d2925;
+  --surface-radius: 12px;
+  --hero-wash: radial-gradient(ellipse at 24% 40%, #354f41, transparent 70%), #1d2925;
   --section-wash: linear-gradient(125deg, #2d4137, #1d2925 73%);
 }
-.design-7 .hero-image { border-radius: 38% 5px 5px 5px; }
-.design-7 .catalog-group { background: #293b33; }
-.design-7 .catalog-group[open] { border-color: #96ae93; }
+.design-7 .hero { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
+.design-7 .hero-image {
+  align-self: center;
+  min-height: 0;
+  aspect-ratio: 520 / 258;
+  outline: 1px solid #9fb19684;
+  outline-offset: 5px;
+}
+.design-7 .catalog-group[open] { border-color: #96ae93; background: linear-gradient(145deg, #32483b, #293b33); }
+.design-7 .about-art img { object-position: 56% 37%; }
 
-/* 09 — T-Студио: chocolate framing and a stepped image with a brighter copper accent. */
+/* T-Студио */
 .design-8 {
-  --photo-position: center 43%;
+  --photo-position: center 40%;
   --surface: #3e2d28;
   --cta-bg: #e5c2a4;
   --surface-radius: 3px;
-  --hero-wash: linear-gradient(119deg, #302321 58%, #664437 58%, #46312a 100%);
+  --hero-wash: linear-gradient(118deg, #302321 61%, #654539 61%, #47312a);
   --section-wash: linear-gradient(125deg, #432f29, #302321 75%);
 }
-.design-8 .hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, .85fr); }
-.design-8 .hero-image { transform: translateY(-8px); box-shadow: 10px 10px 0 #d5baa641; }
+.design-8 .hero { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
+.design-8 .hero-image { box-shadow: 10px 10px 0 #d5baa641; }
 .design-8 .service { background: #3e2d28; }
-.design-8 .service:nth-child(2n) { background: #48342d; }
+.design-8 .service:nth-child(2n) { background: #49352e; }
+.design-8 .about-art { background: #392a25; }
+.design-8 .about-art img { object-fit: contain; }
 
-/* 10 — Zerkalo: stone gray, strict grid lines and black typography. */
+/* Zerkalo */
 .design-9 {
   --photo-position: center 38%;
   --ink: #262523;
@@ -488,18 +584,27 @@
   --cta-ink: #fff;
   --focus: #242422;
   --surface-radius: 0;
-  --hero-wash: repeating-linear-gradient(90deg, #29251f0d 0 1px, transparent 1px 92px),
-    linear-gradient(120deg, #eeeae2, #dfdcd3);
+  --hero-wash: linear-gradient(120deg, #eeeae2, #dfdcd3);
   --section-wash: linear-gradient(100deg, #ebe9e1, #dddbd2);
 }
+.design-9 .hero { gap: 15px 0; }
+.design-9 .hero-copy { padding-inline-end: clamp(22px, 4vw, 56px); }
 .design-9 .hero h1 { font-weight: 700; }
-.design-9 .hero-image { outline: 1px solid #646057; outline-offset: 5px; }
-.design-9 .service { background: #e8e5db; border-color: #aaa59b; }
-.design-9 .service h3 { font-family: Arial, sans-serif; font-weight: 600; letter-spacing: -.02em; }
+.design-9 .hero-image { border: 1px solid #646057; box-shadow: 8px 8px 0 #b5afa4; }
+.design-9 .service-grid { gap: 0; border: 1px solid #aaa59b; }
+.design-9 .service { background: #e8e5db; border-width: 0 1px 0 0; border-color: #aaa59b; }
+.design-9 .service:last-child { border: 0; }
+.design-9 .service h3 { font-family: Arial, sans-serif; font-weight: 600; letter-spacing: -.025em; }
 
 @media (max-width: 920px) {
   .salon .hero h1 { font-size: clamp(36px, 5.4vw, 64px); }
-  .salon .hero-image { min-height: clamp(300px, 49vw, 425px); }
+  .salon .hero-image { min-height: clamp(280px, 42vw, 395px); }
+  .design-1 .hero-image, .design-3 .hero-image, .design-7 .hero-image { min-height: 0; }
+  .design-1 .service { grid-template-columns: 18px minmax(0, 1fr); }
+  .design-1 .service > div { grid-column: 2; text-align: start; }
+  .design-9 .service:nth-child(odd) { border-inline-end: 1px solid #aaa59b; }
+  .design-9 .service:nth-child(even) { border-inline-end: 0; }
+  .design-9 .service:nth-child(-n + 2) { border-bottom: 1px solid #aaa59b; }
   .salon :is(.section-heading, .catalog-groups) { gap: 10px 14px; }
   .salon .catalog-group summary { gap: 7px; }
   .salon .contacts { grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr); }
@@ -542,12 +647,12 @@
   .salon .hero-image::after { display: none; }
   .salon .hero-bottom { order: 2; padding: 13px var(--gutter) 17px; }
   .salon .hero-bottom span { max-width: 100%; }
-  .salon .section { padding-block: 34px; }
+  .salon .section { padding-block: 32px; }
   .salon .section-heading { display: grid; grid-template-columns: 1fr; gap: 7px; }
   .salon .section-heading h2 { margin: 0; }
   .salon .section-heading > p:last-child { max-width: 50ch; }
   .salon .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .salon .service { min-height: 115px; padding: 11px; }
+  .salon .service { padding: 13px; }
   .salon .service h3 { font-size: clamp(16px, 4.3vw, 22px); }
   .salon .service > div { font-size: 12px; }
   .salon .catalog-groups, .salon .contacts, .salon .about { grid-template-columns: minmax(0, 1fr); }
@@ -558,46 +663,34 @@
   .salon .contact-map { height: 300px; }
   .salon footer { flex-direction: row; align-items: center; }
 
-  .design-0 .hero-image, .design-3 .hero-image { margin-inline: 0; }
-  .design-1 .hero-image, .design-9 .hero-image { margin-inline: calc(var(--gutter) + 5px); outline-offset: 4px; }
+  .design-0 .hero-image { height: clamp(240px, 78vw, 380px); border-radius: 24px; outline-offset: 3px; }
+  .design-3 .hero-image { margin-inline: 0; }
+  .design-1 .hero-image, .design-7 .hero-image {
+    width: calc(100% - 2 * var(--gutter) - 8px);
+    height: auto;
+    outline-offset: 4px;
+  }
+  .design-1 .service { display: flex; }
+  .design-2 .hero-image { height: clamp(265px, 81vw, 430px); }
   .design-2 .hero-image, .design-8 .hero-image { margin-inline-end: calc(var(--gutter) + 7px); }
-  .design-2 .hero-image { box-shadow: 6px 6px 0 #a2473745; }
+  .design-2 .hero-image { outline-offset: 3px; box-shadow: 8px 8px 0 #bf8e796e; }
   .design-3 .hero-image { order: -1; height: clamp(175px, 54vw, 285px); }
-  .design-3 .hero-copy { align-self: auto; }
+  .design-3 .hero-copy { align-self: stretch; }
   .design-4 .hero-copy { text-align: center; }
   .design-4 .hero .actions { justify-content: center; }
-  .design-4 .hero-image { border-radius: 70px 70px 3px 3px; }
+  .design-4 .hero-image { border-radius: 52px 52px 3px 3px; outline-offset: 3px; }
   .design-4 .hero-bottom { justify-content: center; }
   .design-5 .hero-image { height: clamp(180px, 48vw, 270px); }
   .design-6 .hero-image { width: min(76%, 345px); margin-inline: auto; height: clamp(220px, 64vw, 360px); }
-  .design-8 .hero-image { transform: none; box-shadow: 6px 6px 0 #d5baa641; }
+  .design-8 .hero-image { box-shadow: 6px 6px 0 #d5baa641; }
+  .design-8 .about-art { height: clamp(235px, 70vw, 320px); }
+  .design-9 .hero-copy { padding-inline-end: var(--gutter); }
+  .design-9 .hero-image { margin-inline-end: calc(var(--gutter) + 7px); box-shadow: 6px 6px 0 #b5afa4; }
 }
 
-/* Photography crops follow the actual assets from each salon's own material. */
-.design-0 { --photo-position: 53% 43%; }
-.design-0 .hero-image { background: #251e19; }
-.design-0 .about-art img { object-position: 50% 52%; }
-.design-0 .about-art { border: 1px solid #a787685c; }
-.design-1 { --photo-position: 53% 42%; }
-.design-1 .hero-image img { object-fit: contain; }
-.design-1 .about-art img { object-position: 50% 43%; }
-.design-2 { --photo-position: 48% 58%; }
-.design-2 .about-art img { object-position: 50% 40%; }
-.design-4 .hero-image::after {
-  background: radial-gradient(ellipse at 50% 45%, #21180fea, #21180fa6 67%, #21180f40);
-}
-.design-5 { --photo-position: 52% 49%; }
-.design-5 .about-art img { object-position: 52% 43%; }
-.design-6 { --photo-position: 48% 72%; }
-.design-6 .about-art { background: #333; }
-.design-6 .about-art img { object-fit: contain; }
-.design-7 { --photo-position: 78% 50%; }
-.design-7 .hero-image { border-radius: 10px; }
-.design-7 .about-art img { object-position: 56% 37%; }
-.design-8 .about-art { background: linear-gradient(125deg, #52382f, #302321); }
-.design-8 .about-art img { object-fit: contain; }
-@media (max-width: 680px) {
-  .design-4 .hero-image::after { display: none; }
-  .design-6 .about-art { border-radius: 12px; }
-  .design-8 .about-art { height: clamp(240px, 70vw, 320px); }
-}
+.collection header { border-bottom-color: #41362750; }
+.collection-title { padding-block: clamp(36px, 5.6vw, 90px); }
+.collection-grid { gap: clamp(24px, 4vw, 58px) 24px; }
+.collection-grid article { border-bottom: 1px solid #41362735; padding-bottom: 16px; }
+.collection .preview { outline: 1px solid #41362740; outline-offset: 3px; }
+.collection .collection-description { padding-inline: 2px; }
