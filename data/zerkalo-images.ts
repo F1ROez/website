@@ -4,6 +4,7 @@ import { join } from 'node:path';
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const publicDir = join(process.cwd(), 'public');
 const heroPath = '/images/hero-02.webp';
+const hairLead = ['13.webp', '15.webp', '27.webp'];
 
 const captions: Record<'hair' | 'nails', Record<string, string>> = {
   hair: {
@@ -24,11 +25,9 @@ const captions: Record<'hair' | 'nails', Record<string, string>> = {
     '15.webp': 'Длинные тёмные волосы с чёлкой и прядями у лица',
     '16.webp': 'Длинные светлые волосы, вид спереди в зеркале',
     '17.webp': 'Короткая стрижка на светлых волосах, вид сверху',
-    '18.webp': 'Работа мастера с волосами в студии',
     '19.webp': 'Каре на светло-русых волосах, вид сбоку',
     '20.webp': 'Короткая многослойная стрижка, вид сзади',
     '21.webp': 'Детская стрижка, вид сбоку',
-    '22.webp': 'Светло-русые волосы до работы мастера',
     '23.webp': 'Светло-русые волосы после работы мастера',
     '24.webp': 'Прямой срез на светлых волосах, вид под углом',
     '25.webp': 'Короткая стрижка на пепельно-светлых волосах',
@@ -56,7 +55,6 @@ const captions: Record<'hair' | 'nails', Record<string, string>> = {
     '16.webp': 'Розовый маникюр с рисунком и глянцем',
     '17.webp': 'Глянцевый светло-розовый маникюр',
     '18.webp': 'Тёмный педикюр с мерцающим покрытием',
-    '19.webp': 'Мастер выполняет маникюр в студии',
     '20.webp': 'Красный маникюр с овальной формой ногтей',
     '21.webp': 'Светлый маникюр с чёрными кончиками',
     '22.webp': 'Голубой маникюр с прозрачными блестящими кончиками',
@@ -87,12 +85,15 @@ export function zerkaloWorks(category: 'hair' | 'nails') {
   const path = `/images/works/${category}/`;
   const directory = join(publicDir, path);
   if (!existsSync(directory)) return [];
-  return readdirSync(directory, { withFileTypes: true })
+  const files = readdirSync(directory, { withFileTypes: true })
     .filter((entry) => entry.isFile() && /\.(webp|jpe?g|png|avif)$/i.test(entry.name))
     .map((entry) => entry.name)
-    .sort((a, b) => a.localeCompare(b, 'ru', { numeric: true }))
-    .map((name, index) => ({
-      src: basePath + path + encodeURIComponent(name),
-      alt: captions[category][name] ?? `Работа студии, фото ${index + 1}`,
-    }));
+    .sort((a, b) => a.localeCompare(b, 'ru', { numeric: true }));
+  const ordered = category === 'hair'
+    ? [...hairLead.filter((name) => files.includes(name)), ...files.filter((name) => !hairLead.includes(name))]
+    : files;
+  return ordered.map((name, index) => ({
+    src: basePath + path + encodeURIComponent(name),
+    alt: captions[category][name] ?? `Работа студии, фото ${index + 1}`,
+  }));
 }
