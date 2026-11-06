@@ -3,10 +3,11 @@
 import { useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, ArrowUpRight, MapPin, Menu, Star, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, MapPin, Menu, Plus, Star, X } from 'lucide-react';
 import { images, detailImages, photoAtWidth } from '../data/images';
-import { cardFor, locations, routeFor, widgetFor } from '../data/locations';
+import { locations, widgetFor } from '../data/locations';
 import { editorials } from '../data/editorials';
+import { serviceCatalogs } from '../data/service-catalogs';
 import type { Salon } from '../data/salons';
 
 const ratingFormat = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -23,6 +24,9 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
   const branches = locations[salon.slug];
   const branch = branches[selected];
   const editorial = editorials[index];
+  const catalog = serviceCatalogs[salon.slug];
+  const hasHighlights = salon.services.length > 0;
+  const servicesLabel = hasHighlights ? 'Услуги' : catalog?.title ?? 'Услуги';
   const action = branch.contact ?? salon.contact;
   const label = branch.action ?? salon.action;
   const phoneHref = branch.phone ? `tel:${branch.phone.replace(/[^+\d]/g, '')}` : undefined;
@@ -43,7 +47,7 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
       }}>
         <a className="wordmark" href="#main">{salon.name}<small>{salon.label}</small></a>
         <nav aria-label="Основная навигация" id="salon-navigation" className={menu ? 'open' : ''}>
-          {nav.map(([name, href]) => <a key={href} href={href} onClick={() => setMenu(false)}>{name}</a>)}
+          {nav.map(([name, href]) => <a key={href} href={href} onClick={() => setMenu(false)}>{href === '#services' ? servicesLabel : name}</a>)}
         </nav>
         <button className="menu" type="button" ref={menuButton} aria-controls="salon-navigation"
           aria-expanded={menu} aria-label={menu ? 'Закрыть меню' : 'Открыть меню'} onClick={() => setMenu(!menu)}>
@@ -63,7 +67,7 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
             <p className="intro">{salon.description}</p>
             <div className="actions">
               <a className="button" href={primary}>{primaryLabel}<ArrowUpRight size={20} /></a>
-              <a className="text-link" href="#services">Смотреть услуги <ArrowRight size={17} /></a>
+              <a className="text-link" href="#services">{hasHighlights ? 'Смотреть услуги' : servicesLabel} <ArrowRight size={17} /></a>
             </div>
           </motion.div>
           <div className="hero-bottom">
@@ -74,10 +78,10 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
         <section id="services" className="services section" aria-labelledby="services-title">
           <div className="section-heading">
             <p className="eyebrow">01 / Услуги</p>
-            <h2 id="services-title">{editorial.servicesTitle}</h2>
-            <p>{editorial.servicesIntro}</p>
+            <h2 id="services-title">{hasHighlights ? editorial.servicesTitle : catalog?.title}</h2>
+            <p>{hasHighlights ? editorial.servicesIntro : catalog?.intro}</p>
           </div>
-          <div className="service-grid">
+          {hasHighlights && <div className="service-grid">
             {salon.services.map(([name, price], i) => (
               <motion.article className="service" key={name} initial={rise} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: .15 }} transition={{ duration: .3, delay: reduced ? 0 : i * .045 }}>
@@ -86,8 +90,28 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
                 <div><span>{price}</span></div>
               </motion.article>
             ))}
-          </div>
-          {salon.services.some(([, price]) => price.includes('₽')) &&
+          </div>}
+          {catalog && (
+            <div className={`service-catalog${hasHighlights ? ' service-catalog-extra' : ''}`}>
+              {hasHighlights && <div className="catalog-heading"><h3>{catalog.title}</h3><p>{catalog.intro}</p></div>}
+              <div className="catalog-groups">
+                {catalog.groups.map((group, groupIndex) => (
+                  <details key={group.name} className="catalog-group" open={groupIndex === 0}>
+                    <summary>
+                      <span className="catalog-index" aria-hidden="true">{String(groupIndex + 1).padStart(2, '0')}</span>
+                      <span>{group.name}</span>
+                      <Plus size={18} aria-hidden="true" />
+                    </summary>
+                    {group.description && <p className="catalog-description">{group.description}</p>}
+                    <ul className="catalog-items">
+                      {group.items.map((item) => <li key={item.name}><span>{item.name}</span>{item.detail && <span>{item.detail}</span>}</li>)}
+                    </ul>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )}
+          {(catalog || salon.services.some(([, price]) => price.includes('₽'))) &&
             <small className="price-note">Итоговую стоимость и доступность услуги подтвердит салон при записи.</small>}
         </section>
 
@@ -101,9 +125,6 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
             <p className="eyebrow">02 / {salon.name}</p>
             <h2 id="about-title">{editorial.aboutTitle}</h2>
             <p>{editorial.about}</p>
-            {editorial.more && <a className="text-link" href={editorial.more.href} target="_blank" rel="noreferrer">
-              {editorial.more.label}<ArrowUpRight size={17} />
-            </a>}
           </div>
         </section>
 
@@ -125,10 +146,10 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
               <div>
                 <strong>{branch.address}</strong>
                 <span>Красноярск{branch.hours && ` · ${branch.hours}`}</span>
-                <a className="branch-rating" href={cardFor(branch)} target="_blank" rel="noreferrer">
+                <div className="branch-rating">
                   <Star size={16} aria-hidden="true" />
                   <b>{ratingFormat.format(score)}</b> в 2ГИС · {ratingCount} {ratingWords[ratingPlural.select(ratingCount)]}
-                </a>
+                </div>
               </div>
             </div>
             {(multipleBranches || branch.phone || ['zerkalo', 'karina-meyskaya'].includes(salon.slug)) && (
@@ -137,13 +158,10 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
                 {branch.phone && phoneHref && action !== phoneHref &&
                   <a className="text-link" href={phoneHref}>{branch.phone}</a>}
                 {branch.phone && action === phoneHref && <span className="contact-phone">{branch.phone}</span>}
-                {salon.slug === 'zerkalo' && <a className="text-link" href="https://t.me/+79230194638">Telegram</a>}
-                {salon.slug === 'karina-meyskaya' && <a className="text-link" href="https://t.me/+79330269666">Telegram</a>}
+                {salon.slug === 'zerkalo' && <a className="text-link" href="https://t.me/+79230194638">Запись в Telegram</a>}
+                {salon.slug === 'karina-meyskaya' && <a className="text-link" href="https://t.me/+79330269666">Запись в Telegram</a>}
               </div>
             )}
-            <a className="text-link route-link" href={routeFor(branch)} target="_blank" rel="noreferrer">
-              Построить маршрут в 2ГИС<ArrowUpRight size={17} />
-            </a>
           </div>
           <iframe key={branch.id} className="contact-map" src={widgetFor(branch)} title={`Карта 2ГИС · ${branch.address}`}
             loading="lazy" sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation" />

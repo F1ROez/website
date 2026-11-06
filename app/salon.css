@@ -28,13 +28,10 @@
   margin-top: 7px;
   font-size: 13px;
   line-height: 1.5;
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 .branch-rating svg { fill: currentColor; margin-top: 0; }
 .branch-rating b { font-size: 15px; }
 .contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
-.route-link { margin-top: 19px; }
 .salon .services { border-block: 1px solid var(--line); }
 .salon .price-note { opacity: .8; font-size: 12px; line-height: 1.5; }
 .salon .about p { max-width: 52ch; }
@@ -157,3 +154,43 @@
 }
 
 .collection .collection-description { margin: 14px 0 0; line-height: 1.55; }
+
+
+/* In-page catalog, themed with the salon's existing typography and colors. */
+.service-catalog-extra { margin-top: clamp(40px, 6vw, 80px); }
+.catalog-heading { margin-bottom: 24px; }
+.catalog-heading h3 { font: 400 clamp(25px, 4vw, 40px)/1.15 Georgia, serif; }
+.catalog-heading p, .catalog-description { max-width: 65ch; font-size: 14px; line-height: 1.65; opacity: .85; }
+.catalog-heading p { margin-top: 10px; }
+.catalog-groups { display: grid; gap: 12px; }
+.catalog-group { border: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 5%, var(--bg)); }
+.catalog-group summary {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 13px clamp(14px, 3vw, 24px);
+  list-style: none;
+  cursor: pointer;
+}
+.catalog-group summary::-webkit-details-marker { display: none; }
+.catalog-group summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.catalog-group summary svg { transition: transform .2s ease; }
+.catalog-group[open] summary svg { transform: rotate(45deg); }
+.catalog-index { font-size: 10px; letter-spacing: .08em; opacity: .75; }
+.catalog-description { padding: 0 clamp(14px, 3vw, 24px) 12px; margin: 0; }
+.catalog-items { padding: 0 clamp(14px, 3vw, 24px) 10px; margin: 0; list-style: none; }
+.catalog-items li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.catalog-items li span + span { text-align: end; flex-shrink: 0; max-width: 46%; }
+.design-7 .catalog-group { background: #23332c; }
+@media (prefers-reduced-motion: reduce) { .catalog-group summary svg { transition: none; } }
