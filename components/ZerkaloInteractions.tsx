@@ -67,7 +67,7 @@ export function WorksGallery({ category, label, number, images }: {
   category: 'hair' | 'nails';
   label: string;
   number: string;
-  images: string[];
+  images: Array<{ src: string; alt: string }>;
 }) {
   const track = useRef<HTMLUListElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -132,7 +132,7 @@ export function WorksGallery({ category, label, number, images }: {
       {total > 0 && (
         <>
           <ul className="zk-track" id={`${id}-track`} ref={track}>
-            {images.map((src, index) => (
+            {images.map(({ src, alt }, index) => (
               <li key={src}>
                 <button type="button" aria-label={`${label} · открыть фото ${index + 1} из ${total}`}
                   onClick={() => {
@@ -140,7 +140,7 @@ export function WorksGallery({ category, label, number, images }: {
                     dialog.current?.showModal();
                     closeButton.current?.focus();
                   }}>
-                  <img src={src} alt={`${label} · работа студии ${index + 1}`} loading="lazy" decoding="async" />
+                  <img src={src} alt={alt} loading="lazy" decoding="async" />
                   <span className="zk-expand" aria-hidden="true"><Maximize2 size={17} /></span>
                 </button>
                 <span className="zk-kicker" aria-hidden="true">Zerkalo / {String(index + 1).padStart(2, '0')}</span>
@@ -164,7 +164,7 @@ export function WorksGallery({ category, label, number, images }: {
                 if (total > 1 && Math.abs(distance) > 48) stepPhoto(distance > 0 ? -1 : 1);
               }}
               onTouchCancel={() => { touchStart.current = null; }}>
-              <img key={images[selected]} src={images[selected]} alt={`${label} · работа студии ${selected + 1}`} loading="lazy" />
+              <img key={images[selected].src} src={images[selected].src} alt={images[selected].alt} loading="lazy" />
               <figcaption aria-live="polite">{label} / {selected + 1} из {total}</figcaption>
             </figure>
             {total > 1 && <div className="zk-light-arrows">

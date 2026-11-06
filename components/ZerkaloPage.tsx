@@ -13,6 +13,7 @@ import './zerkalo.css';
 export default function ZerkaloPage({ salon, index }: { salon: Salon; index: number }) {
   const editorial = editorials[index];
   const branch = locations.zerkalo[0];
+  const phone = branch.phone?.replace(/[^+\d]/g, '');
   const [score, ratingCount] = branch.rating;
   const [hair, nails] = serviceCatalogs.zerkalo!.groups;
   const sections = [
@@ -119,6 +120,7 @@ export default function ZerkaloPage({ salon, index }: { salon: Salon; index: num
                 <Star size={15} aria-hidden="true" />
                 {score.toLocaleString('ru-RU', { minimumFractionDigits: 1 })} в 2ГИС · {ratingCount} оценок
               </a>
+              {phone && <a className="zk-phone" href={`tel:${phone}`}>{branch.phone}</a>}
               <div className="zk-contact-actions">
                 <a className="zk-cta" href={salon.contact}>{salon.action} <ArrowUpRight size={20} /></a>
                 <a className="zk-link" href="https://t.me/+79230194638">Запись в Telegram <ArrowUpRight size={16} /></a>
