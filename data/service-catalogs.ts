@@ -108,8 +108,8 @@ export const serviceCatalogs: Partial<Record<string, ServiceCatalog>> = {
     title: 'Ещё в студии',
     intro: 'Уточните у мастера технику, длину и подготовку к визиту.',
     groups: [
-      { name: 'Стрижки', items: [{ name: 'Мужская стрижка', detail: '2 000 ₽' }, { name: 'Детская стрижка 6–12 лет', detail: '1 500 ₽' }, { name: 'Стрижка чёлки', detail: 'от 700 ₽' }] },
-      { name: 'Плетение и консультация', items: [{ name: 'Афрокосы и косы' }, { name: 'Консультация по сложному окрашиванию' }] },
+      { name: 'Стрижки', items: [{ name: 'Детская стрижка 6–12 лет', detail: '1 500 ₽' }, { name: 'Стрижка чёлки', detail: 'от 700 ₽' }] },
+      { name: 'Уход и плетение', items: [{ name: 'Уход TOKIO INKARAMI', detail: 'от 7 000 ₽' }, { name: 'Афрокосы и косы' }, { name: 'Консультация по сложному окрашиванию' }] },
     ],
   },
   'karina-meyskaya': {
