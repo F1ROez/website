@@ -31,8 +31,6 @@ jobs:
           SALON_SLUG: zerkalo
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           SITE_URL: ${{ steps.pages.outputs.base_url }}
-      - name: Keep only Zerkalo photos
-        run: find out/salon-photos -type f ! -name 'zerkalo-*.webp' -delete
       - uses: actions/upload-pages-artifact@v4
         with:
           path: out
