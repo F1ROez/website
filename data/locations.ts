@@ -71,6 +71,10 @@ locations.ambassador[0].phone = '+7 (391) 286-64-47';
 locations.rubleva[0].phone = '+7 (903) 921-97-77';
 locations['four-suns'][0].phone = '+7 (902) 990-56-54';
 
+export function mapFor(branch: Location) {
+  return `https://2gis.ru/krasnoyarsk/firm/${branch.id}`;
+}
+
 export function routeFor(branch: Location) {
   const destination = branch.coordinates + (/^\d+$/.test(branch.id) ? `;${branch.id}` : '');
   return `https://2gis.ru/krasnoyarsk/directions/points/${encodeURIComponent('|' + destination)}`;
