@@ -1,6 +1,7 @@
 type CatalogGroup = {
   name: string;
   description?: string;
+  disclosure?: 'open' | 'closed';
   items: Array<{ name: string; detail?: string }>;
 };
 
@@ -17,6 +18,7 @@ export const serviceCatalogs: Partial<Record<string, ServiceCatalog>> = {
     groups: [
       {
         name: 'Стрижки и укладки',
+        disclosure: 'open',
         description: 'Обновление формы, повседневные укладки и причёски для особого случая.',
         items: [
           { name: 'Женская стрижка', detail: '3 000 ₽' },
@@ -28,6 +30,7 @@ export const serviceCatalogs: Partial<Record<string, ServiceCatalog>> = {
       },
       {
         name: 'Окрашивание и уход',
+        disclosure: 'open',
         description: 'Выбор техники и программы ухода зависит от длины волос и желаемого результата.',
         items: [
           { name: 'Окрашивание в один тон Alfaparf', detail: '4 900–6 500 ₽' },
@@ -37,6 +40,7 @@ export const serviceCatalogs: Partial<Record<string, ServiceCatalog>> = {
       },
       {
         name: 'Ногтевой сервис',
+        disclosure: 'open',
         description: 'Маникюр, педикюр, покрытия и уход за руками.',
         items: [
           { name: 'Маникюр', detail: 'от 1 500 ₽' },
@@ -47,6 +51,7 @@ export const serviceCatalogs: Partial<Record<string, ServiceCatalog>> = {
       },
       {
         name: 'SPA-комплекс',
+        disclosure: 'closed',
         description: 'Отдельное направление велнес-центра. Состав программы и стоимость можно уточнить при записи.',
         items: [
           { name: 'SPA-зона' },
@@ -86,9 +91,9 @@ export const serviceCatalogs: Partial<Record<string, ServiceCatalog>> = {
     title: 'Каталог процедур',
     intro: 'Помимо парикмахерского зала, в сети доступны ногтевой сервис, макияж и оформление бровей. Уточняйте набор услуг выбранного филиала.',
     groups: [
-      { name: 'Волосы', items: [{ name: 'Окрашивание в один тон', detail: 'от 6 000 ₽' }, { name: 'Тонирование', detail: 'от 4 000 ₽' }, { name: 'Укладки' }, { name: 'Биозавивка и прикорневой объём' }] },
-      { name: 'Маникюр и педикюр', items: [{ name: 'Маникюр с покрытием и без' }, { name: 'Мужской и детский маникюр' }, { name: 'Педикюр' }] },
-      { name: 'Макияж, брови и ресницы', items: [{ name: 'Макияж для события' }, { name: 'Коррекция и окрашивание бровей' }, { name: 'Окрашивание ресниц' }] },
+      { name: 'Волосы', disclosure: 'open', items: [{ name: 'Окрашивание в один тон', detail: 'от 6 000 ₽' }, { name: 'Тонирование', detail: 'от 4 000 ₽' }, { name: 'Укладки' }, { name: 'Биозавивка и прикорневой объём' }] },
+      { name: 'Маникюр и педикюр', disclosure: 'open', items: [{ name: 'Маникюр с покрытием и без' }, { name: 'Мужской и детский маникюр' }, { name: 'Педикюр' }] },
+      { name: 'Макияж, брови и ресницы', disclosure: 'open', items: [{ name: 'Макияж для события' }, { name: 'Коррекция и окрашивание бровей' }, { name: 'Окрашивание ресниц' }] },
     ],
   },
   'like-me': {

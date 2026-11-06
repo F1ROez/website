@@ -94,20 +94,37 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
           {catalog && (
             <div className={`service-catalog${hasHighlights ? ' service-catalog-extra' : ''}`}>
               {hasHighlights && <div className="catalog-heading"><h3>{catalog.title}</h3><p>{catalog.intro}</p></div>}
-              <div className="catalog-groups">
-                {catalog.groups.map((group, groupIndex) => (
-                  <details key={group.name} className="catalog-group" open={groupIndex === 0}>
-                    <summary>
+              <div className={`catalog-groups${catalog.groups.length === 3 ? ' catalog-groups-three' : ''}`}>
+                {catalog.groups.map((group, groupIndex) => {
+                  const heading = (
+                    <>
                       <span className="catalog-index" aria-hidden="true">{String(groupIndex + 1).padStart(2, '0')}</span>
                       <span>{group.name}</span>
-                      <Plus size={18} aria-hidden="true" />
-                    </summary>
-                    {group.description && <p className="catalog-description">{group.description}</p>}
-                    <ul className="catalog-items">
-                      {group.items.map((item) => <li key={item.name}><span>{item.name}</span>{item.detail && <span>{item.detail}</span>}</li>)}
-                    </ul>
-                  </details>
-                ))}
+                    </>
+                  );
+                  const content = (
+                    <>
+                      {group.description && <p className="catalog-description">{group.description}</p>}
+                      <ul className="catalog-items">
+                        {group.items.map((item) => (
+                          <li key={item.name}><span>{item.name}</span>{item.detail && <span>{item.detail}</span>}</li>
+                        ))}
+                      </ul>
+                    </>
+                  );
+
+                  return group.disclosure ? (
+                    <details key={group.name} className="catalog-group" open={group.disclosure === 'open'}>
+                      <summary>{heading}<Plus size={18} aria-hidden="true" /></summary>
+                      {content}
+                    </details>
+                  ) : (
+                    <article key={group.name} className="catalog-group catalog-card">
+                      <h4 className="catalog-card-title">{heading}</h4>
+                      {content}
+                    </article>
+                  );
+                })}
               </div>
             </div>
           )}

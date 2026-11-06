@@ -232,6 +232,28 @@
   border-radius: var(--surface-radius);
   background: var(--surface);
 }
+.salon .catalog-card {
+  align-self: stretch;
+  border-top: 2px solid color-mix(in srgb, var(--accent) 64%, var(--surface));
+  background: linear-gradient(155deg, color-mix(in srgb, var(--accent) 13%, var(--surface)), var(--surface) 58%);
+}
+.catalog-card-title {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  margin: 0;
+  padding: 14px clamp(14px, 3vw, 24px) 9px;
+  font-family: Georgia, serif;
+  font-size: clamp(17px, 2vw, 23px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+.salon .catalog-card .catalog-items { padding-bottom: 8px; }
+.salon .catalog-card .catalog-items li:first-child { border-top: 1px solid var(--edge); }
+@media (min-width: 1080px) {
+  .salon .catalog-groups-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 .salon .catalog-group summary { min-height: 52px; grid-template-columns: 22px minmax(0, 1fr) 30px; font-weight: 600; font-size: 14px; }
 .salon .catalog-group summary svg {
   box-sizing: content-box;
@@ -245,7 +267,7 @@
 .salon .catalog-items { padding-bottom: 2px; }
 .salon .catalog-items li { min-width: 0; padding-block: 9px; }
 .salon .catalog-items li:first-child { border-top: 0; }
-.salon .catalog-items li span + span { color: var(--muted); }
+.salon .catalog-items li span + span { color: var(--muted); font-variant-numeric: tabular-nums; }
 .salon .catalog-index { color: var(--muted); opacity: 1; }
 
 .salon .about {
