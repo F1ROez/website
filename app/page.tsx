@@ -14,20 +14,20 @@ export const metadata: Metadata = active ? {
   openGraph: { title: active.name, description: active.description, images: [images[activeIndex]] },
   robots: { index: false, follow: false },
 } : {
-  title: 'Коллекция салонов · Красноярск',
-  description: 'Десять демонстрационных сайтов для салонов красоты Красноярска.',
+  title: 'Салоны красоты · Красноярск',
+  description: 'Салоны красоты Красноярска. Услуги, адреса и запись.',
   robots: { index: false, follow: false },
 };
 
 export default function Home() {
-  if (active) return <SalonPage salon={active} index={activeIndex} standalone />;
+  if (active) return <SalonPage salon={active} index={activeIndex} />;
   return (
     <main className="collection">
-      <header><span>STUDIO / COLLECTION</span><span>КРАСНОЯРСК · 2026</span></header>
+      <header><span>САЛОНЫ КРАСОТЫ</span><span>КРАСНОЯРСК</span></header>
       <section className="collection-title">
         <p className="eyebrow">ДЕСЯТЬ ПРОСТРАНСТВ КРАСОТЫ</p>
-        <h1>Салоны Красноярска.<br /><em>Коллекция сайтов.</em></h1>
-        <p>Десять демонстрационных проектов. Выберите салон, чтобы посмотреть дизайн, меню услуг и запись.</p>
+        <h1>Салоны красоты<br /><em>Красноярска</em></h1>
+        <p>Выберите салон, чтобы посмотреть услуги, адрес и способы записи.</p>
       </section>
       <div className="collection-grid">
         {salons.map((salon, i) => (
@@ -39,16 +39,10 @@ export default function Home() {
               <div><small>{salon.label}</small><h2>{salon.name}</h2><p>{salon.headline}</p></div>
               <ArrowUpRight />
             </a>
-            <div className="card-title">
-              <h3>{String(i + 1).padStart(2, '0')} / {salon.name}</h3>
-              <span>{i === 0 ? 'Есть микросайт 2ГИС' : salon.old ? 'Есть действующий сайт' : 'Отдельный сайт не найден'}</span>
-            </div>
-            <p>{salon.concept}</p>
-            <a href={`/${salon.slug}/`}>Открыть сайт ↗</a>
+            <p className="collection-description">{salon.description}</p>
           </article>
         ))}
       </div>
-      <footer>Демонстрационные фотографии · Публичные контакты салонов</footer>
     </main>
   );
 }

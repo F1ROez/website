@@ -27,5 +27,5 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
   const index = salons.findIndex((salon) => salon.slug === slug);
   if (index < 0) notFound();
-  return <SalonPage salon={salons[index]} index={index} standalone={!!process.env.SALON_SLUG} />;
+  return <SalonPage salon={salons[index]} index={index} />;
 }

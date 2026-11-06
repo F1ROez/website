@@ -5,18 +5,9 @@
 .salon .eyebrow { text-transform: uppercase; }
 .salon .hero-copy { min-width: 0; }
 .salon .hero-bottom a:first-child { display: inline-flex; align-items: center; gap: 9px; }
-.salon .hero-image > span, .about-art figcaption {
-  background: #171715db;
-  color: #fff;
-  padding: 6px 9px;
-  width: max-content;
-  opacity: 1;
-  letter-spacing: .05em;
-}
 .skip-link { position: absolute; z-index: 30; top: 10px; left: 10px; padding: 12px; background: #fff; color: #171715; transform: translateY(-150%); }
 .skip-link:focus { transform: translateY(0); }
 .salon .about-art { margin: 0; position: relative; background: color-mix(in srgb, var(--bg), var(--accent) 14%); }
-.about-art figcaption { position: absolute; bottom: 12px; left: 12px; font-size: 10px; }
 .salon .contacts { align-items: center; }
 .contact-map { display: block; border: 0; width: 100%; height: 420px; background: #e6e9e2; }
 .branch-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
@@ -121,7 +112,6 @@
   .salon .hero { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding: 0; }
   .salon .hero-image { position: relative; inset: auto; height: clamp(235px, 74vw, 415px); opacity: 1; border: 0; padding: 0; border-radius: 0; order: 1; }
   .salon .hero-image:after { background: none; }
-  .salon .hero-image > span { left: 6vw; right: auto; bottom: 12px; }
   .salon .hero-copy { order: 0; padding: 36px 6vw 30px; max-width: 100%; }
   .salon .hero-copy .eyebrow { margin-bottom: 16px; }
   .salon .hero h1 { font-size: clamp(35px, 9.5vw, 56px); }
@@ -156,3 +146,5 @@
   .collection .preview p { font-size: clamp(12px, 3.7vw, 18px); }
   .collection .preview small { font-size: 7px; }
 }
+
+.collection .collection-description { margin: 14px 0 0; line-height: 1.55; }

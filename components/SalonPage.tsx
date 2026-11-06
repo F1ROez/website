@@ -11,7 +11,7 @@ import type { Salon } from '../data/salons';
 
 const nav = [['Услуги', '#services'], ['О салоне', '#about'], ['Контакты', '#contacts']];
 
-export default function SalonPage({ salon, index, standalone = false }: { salon: Salon; index: number; standalone?: boolean }) {
+export default function SalonPage({ salon, index }: { salon: Salon; index: number }) {
   const [menu, setMenu] = useState(false);
   const [selected, setSelected] = useState(0);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -51,7 +51,6 @@ export default function SalonPage({ salon, index, standalone = false }: { salon:
           <div className="hero-image">
             <img src={images[index]} srcSet={photoAtWidth(images[index])} sizes="(max-width: 640px) 100vw, 90vw"
               fetchPriority="high" alt={editorial.heroAlt} />
-            <span>Демонстрационное фото</span>
           </div>
           <motion.div className="hero-copy" initial={rise} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}>
             <p className="eyebrow">Красноярск / {salon.label}</p>
@@ -93,7 +92,6 @@ export default function SalonPage({ salon, index, standalone = false }: { salon:
             whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: .6 }}>
             <img loading="lazy" decoding="async" src={detailImages[index]} srcSet={photoAtWidth(detailImages[index])}
               sizes="(max-width: 640px) 88vw, 45vw" alt="Иллюстрация парикмахерского направления" />
-            <figcaption>Демонстрационное фото</figcaption>
           </motion.figure>
           <div>
             <p className="eyebrow">02 / {salon.name}</p>
@@ -148,8 +146,8 @@ export default function SalonPage({ salon, index, standalone = false }: { salon:
 
       <footer>
         <a className="wordmark" href="#main">{salon.name}</a>
-        <p>Демонстрационный проект · Красноярск</p>
-        {!standalone && <a href="/">Галерея сайтов <ArrowUpRight size={16} /></a>}
+        <p>Красноярск</p>
+        <a href="#contacts">Адрес и контакты <ArrowRight size={16} /></a>
       </footer>
       <a className="mobile-book button" href={primary}>{primaryLabel}<ArrowUpRight size={18} /></a>
     </div>
