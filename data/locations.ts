@@ -9,6 +9,7 @@ type Location = {
   phone?: string;
   hours?: string;
   coordinates: string;
+  rating: readonly [score: number, count: number];
 };
 
 const coordinates = {
@@ -32,8 +33,28 @@ const coordinates = {
 
 type MapKey = keyof typeof coordinates;
 
+// Ratings and counts from the 2GIS organization cards, checked 2026-11-06.
+const ratings: Record<string, Location['rating']> = {
+  '70000001042614977': [5, 310], // Like Me · Парусная
+  '70000001057575162': [5, 116], // Like Me · Бограда
+  '70000001117206119': [5, 2],   // Like Me · Октябрьская
+  '70000001061494710': [5, 115], // Like Me · Ярыгинская
+  '70000001024589215': [4.9, 214], // Амбассадор
+  '70000001029479193': [4.9, 64],  // Рублёва
+  '70000001080543192': [4.9, 98],  // Зеркала
+  '985690699670006': [5, 607],     // Четыре Солнца
+  '70000001032935617': [5, 331], // YEStwoBEAUTY · Петра Ломако
+  '70000001046450540': [5, 403], // YEStwoBEAUTY · Навигационная
+  '70000001057846207': [5, 250], // YEStwoBEAUTY · Академгородок
+  '70000001063781448': [4.9, 110], // Карина Мейская
+  '985690699467301': [4.9, 364],   // 4 сезона
+  '985690699613400': [4.9, 192],   // Babor
+  '70000001044113319': [4.9, 182], // T-Студио
+  '70000001088827266': [5, 99],    // Zerkalo
+};
+
 function location(key: MapKey, id: string, address: string, details: Partial<Location> = {}): Location {
-  return { id, address, coordinates: coordinates[key], ...details };
+  return { id, address, coordinates: coordinates[key], rating: ratings[id], ...details };
 }
 
 const mainKeys: MapKey[] = ['parus', 'amb', 'rub', 'mirrors', 'suns', 'lomako', 'karina', 'seasons', 't', 'zerkalo'];
@@ -68,6 +89,10 @@ locations['four-seasons'] = [
 locations.ambassador[0].phone = '+7 (391) 286-64-47';
 locations.rubleva[0].phone = '+7 (903) 921-97-77';
 locations['four-suns'][0].phone = '+7 (902) 990-56-54';
+
+export function cardFor(branch: Location) {
+  return `https://2gis.ru/krasnoyarsk/firm/${branch.id}`;
+}
 
 export function widgetFor(branch: Location) {
   const [lon, lat] = branch.coordinates.split(',').map(Number);

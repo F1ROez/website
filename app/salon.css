@@ -4,7 +4,6 @@
 .salon .button svg, .salon .text-link svg { flex: none; }
 .salon .eyebrow { text-transform: uppercase; }
 .salon .hero-copy { min-width: 0; }
-.salon .hero-bottom a:first-child { display: inline-flex; align-items: center; gap: 9px; }
 .skip-link { position: absolute; z-index: 30; top: 10px; left: 10px; padding: 12px; background: #fff; color: #171715; transform: translateY(-150%); }
 .skip-link:focus { transform: translateY(0); }
 .salon .about-art { margin: 0; position: relative; background: color-mix(in srgb, var(--bg), var(--accent) 14%); }
@@ -21,10 +20,22 @@
 .address svg { flex: none; margin-top: 2px; }
 .address strong, .address span { display: block; line-height: 1.55; }
 .address span { font-size: 13px; opacity: .8; }
+.branch-rating {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 7px;
+  font-size: 13px;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.branch-rating svg { fill: currentColor; margin-top: 0; }
+.branch-rating b { font-size: 15px; }
 .contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
 .route-link { margin-top: 19px; }
 .salon .services { border-block: 1px solid var(--line); }
-.salon .service { outline-offset: 3px; }
 .salon .price-note { opacity: .8; font-size: 12px; line-height: 1.5; }
 .salon .about p { max-width: 52ch; }
 .salon .hero-image img { object-position: var(--photo-position, center); }
@@ -118,8 +129,6 @@
   .salon .hero .intro { margin: 18px 0 22px; }
   .salon .hero .actions { gap: 14px; }
   .salon .hero-bottom { position: static; padding: 17px 6vw; order: 2; }
-  .salon .hero-bottom a:last-child { display: none; }
-  .salon .mobile-book { bottom: max(12px, env(safe-area-inset-bottom)); }
   .salon .contact-map { height: 320px; }
   .design-4 .hero-copy { text-align: center; }
   .design-4 .hero .actions { align-items: center; }

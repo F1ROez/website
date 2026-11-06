@@ -3,11 +3,15 @@
 import { useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, ArrowUpRight, MapPin, Menu, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, MapPin, Menu, Star, X } from 'lucide-react';
 import { images, detailImages, photoAtWidth } from '../data/images';
-import { locations, routeFor, widgetFor } from '../data/locations';
+import { cardFor, locations, routeFor, widgetFor } from '../data/locations';
 import { editorials } from '../data/editorials';
 import type { Salon } from '../data/salons';
+
+const ratingFormat = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const ratingPlural = new Intl.PluralRules('ru-RU');
+const ratingWords = { one: 'оценка', few: 'оценки', many: 'оценок', other: 'оценок', zero: 'оценок', two: 'оценки' };
 
 const nav = [['Услуги', '#services'], ['О салоне', '#about'], ['Контакты', '#contacts']];
 
@@ -22,8 +26,10 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
   const action = branch.contact ?? salon.contact;
   const label = branch.action ?? salon.action;
   const phoneHref = branch.phone ? `tel:${branch.phone.replace(/[^+\d]/g, '')}` : undefined;
-  const primary = branches.length > 1 ? '#contacts' : action;
-  const primaryLabel = branches.length > 1 ? 'Выбрать филиал' : label;
+  const multipleBranches = branches.length > 1;
+  const [score, ratingCount] = branch.rating;
+  const primary = multipleBranches ? '#contacts' : action;
+  const primaryLabel = multipleBranches ? 'Выбрать филиал' : label;
   const rise = reduced ? false : { opacity: .78, y: 16 };
 
   return (
@@ -39,7 +45,6 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
         <nav aria-label="Основная навигация" id="salon-navigation" className={menu ? 'open' : ''}>
           {nav.map(([name, href]) => <a key={href} href={href} onClick={() => setMenu(false)}>{name}</a>)}
         </nav>
-        <a className="button compact" href={primary}>{primaryLabel}<ArrowUpRight size={17} /></a>
         <button className="menu" type="button" ref={menuButton} aria-controls="salon-navigation"
           aria-expanded={menu} aria-label={menu ? 'Закрыть меню' : 'Открыть меню'} onClick={() => setMenu(!menu)}>
           {menu ? <X /> : <Menu />}
@@ -62,8 +67,7 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
             </div>
           </motion.div>
           <div className="hero-bottom">
-            <a href="#contacts"><MapPin size={15} />{branches.length > 1 ? `Адреса · ${branches.length}` : salon.address}</a>
-            <a href="#services">Листайте дальше ↓</a>
+            <span><MapPin size={15} aria-hidden="true" />{multipleBranches ? `Адреса · ${branches.length}` : salon.address}</span>
           </div>
         </section>
 
@@ -75,12 +79,12 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
           </div>
           <div className="service-grid">
             {salon.services.map(([name, price], i) => (
-              <motion.a className="service" key={name} href={primary} initial={rise} whileInView={{ opacity: 1, y: 0 }}
+              <motion.article className="service" key={name} initial={rise} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: .15 }} transition={{ duration: .3, delay: reduced ? 0 : i * .045 }}>
                 <span className="service-number">{String(i + 1).padStart(2, '0')}</span>
                 <h3>{name}</h3>
-                <div><span>{price}</span><ArrowUpRight size={19} /></div>
-              </motion.a>
+                <div><span>{price}</span></div>
+              </motion.article>
             ))}
           </div>
           {salon.services.some(([, price]) => price.includes('₽')) &&
@@ -106,8 +110,8 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
         <section id="contacts" className="contacts section" aria-labelledby="contacts-title">
           <div className="contact-copy">
             <p className="eyebrow">03 / Контакты</p>
-            <h2 id="contacts-title">{branches.length > 1 ? 'Выберите адрес' : 'До встречи'}</h2>
-            {branches.length > 1 && (
+            <h2 id="contacts-title">{multipleBranches ? 'Выберите адрес' : 'До встречи'}</h2>
+            {multipleBranches && (
               <div className="branch-list" role="group" aria-label="Филиалы">
                 {branches.map((item, i) => (
                   <button type="button" aria-pressed={i === selected} key={item.id} onClick={() => setSelected(i)}>
@@ -118,16 +122,25 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
             )}
             <div className="address" aria-live="polite">
               <MapPin size={18} />
-              <div><strong>{branch.address}</strong><span>Красноярск{branch.hours && ` · ${branch.hours}`}</span></div>
+              <div>
+                <strong>{branch.address}</strong>
+                <span>Красноярск{branch.hours && ` · ${branch.hours}`}</span>
+                <a className="branch-rating" href={cardFor(branch)} target="_blank" rel="noreferrer">
+                  <Star size={16} aria-hidden="true" />
+                  <b>{ratingFormat.format(score)}</b> в 2ГИС · {ratingCount} {ratingWords[ratingPlural.select(ratingCount)]}
+                </a>
+              </div>
             </div>
-            <div className="contact-actions">
-              <a className="button" href={action}>{label}<ArrowUpRight size={18} /></a>
-              {branch.phone && phoneHref && action !== phoneHref &&
-                <a className="text-link" href={phoneHref}>{branch.phone}</a>}
-              {branch.phone && action === phoneHref && <span className="contact-phone">{branch.phone}</span>}
-              {salon.slug === 'zerkalo' && <a className="text-link" href="https://t.me/+79230194638">Telegram</a>}
-              {salon.slug === 'karina-meyskaya' && <a className="text-link" href="https://t.me/+79330269666">Telegram</a>}
-            </div>
+            {(multipleBranches || branch.phone || ['zerkalo', 'karina-meyskaya'].includes(salon.slug)) && (
+              <div className="contact-actions">
+                {multipleBranches && <a className="button" href={action}>{label}<ArrowUpRight size={18} /></a>}
+                {branch.phone && phoneHref && action !== phoneHref &&
+                  <a className="text-link" href={phoneHref}>{branch.phone}</a>}
+                {branch.phone && action === phoneHref && <span className="contact-phone">{branch.phone}</span>}
+                {salon.slug === 'zerkalo' && <a className="text-link" href="https://t.me/+79230194638">Telegram</a>}
+                {salon.slug === 'karina-meyskaya' && <a className="text-link" href="https://t.me/+79330269666">Telegram</a>}
+              </div>
+            )}
             <a className="text-link route-link" href={routeFor(branch)} target="_blank" rel="noreferrer">
               Построить маршрут в 2ГИС<ArrowUpRight size={17} />
             </a>
@@ -140,9 +153,7 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
       <footer>
         <a className="wordmark" href="#main">{salon.name}</a>
         <p>Красноярск</p>
-        <a href="#contacts">Адрес и контакты <ArrowRight size={16} /></a>
       </footer>
-      <a className="mobile-book button" href={primary}>{primaryLabel}<ArrowUpRight size={18} /></a>
     </div>
   );
 }
