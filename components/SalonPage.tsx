@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, MapPin, Menu, Plus, Star, X } from 'lucide-react';
-import { detailImages, photoAtWidth, salonHero, salonPhotoSet } from '../data/images';
+import { salonPhoto } from '../data/images';
 import { locations, widgetFor } from '../data/locations';
 import { editorials } from '../data/editorials';
 import { serviceCatalogs } from '../data/service-catalogs';
@@ -24,9 +24,8 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
   const branches = locations[salon.slug];
   const branch = branches[selected];
   const editorial = editorials[index];
-  const photos = salonPhotoSet(salon.slug);
-  const heroImage = salonHero(salon.slug, index);
-  const detailImage = photos?.detail?.src ?? detailImages[index];
+  const heroPhoto = salonPhoto(salon.slug, 'hero');
+  const detailPhoto = salonPhoto(salon.slug, 'detail');
   const catalog = serviceCatalogs[salon.slug];
   const hasHighlights = salon.services.length > 0;
   const servicesLabel = hasHighlights ? 'Услуги' : catalog?.title ?? 'Услуги';
@@ -61,8 +60,7 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
       <main id="main">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-image">
-            <img src={heroImage} srcSet={photoAtWidth(heroImage)} sizes="(max-width: 640px) 100vw, 90vw"
-              fetchPriority="high" alt={photos?.hero?.alt ?? editorial.heroAlt} />
+            <img src={heroPhoto.src} fetchPriority="high" alt={heroPhoto.alt} />
           </div>
           <motion.div className="hero-copy" initial={rise} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}>
             <p className="eyebrow">Красноярск / {salon.label}</p>
@@ -138,8 +136,7 @@ export default function SalonPage({ salon, index }: { salon: Salon; index: numbe
         <section id="about" className="about section" aria-labelledby="about-title">
           <motion.figure className="about-art" initial={reduced ? false : { opacity: .45 }}
             whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: .6 }}>
-            <img loading="lazy" decoding="async" src={detailImage} srcSet={photoAtWidth(detailImage)}
-              sizes="(max-width: 640px) 88vw, 45vw" alt={photos?.detail?.alt ?? "Иллюстрация парикмахерского направления"} />
+            <img loading="lazy" decoding="async" src={detailPhoto.src} alt={detailPhoto.alt} />
           </motion.figure>
           <div>
             <p className="eyebrow">02 / {salon.name}</p>

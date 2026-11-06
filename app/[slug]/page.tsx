@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import SalonPage from '../../components/SalonPage';
-import { salonHero } from '../../data/images';
+import { salonPhoto } from '../../data/images';
 import { salons } from '../../data/salons';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -12,13 +12,12 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const index = salons.findIndex((salon) => salon.slug === slug);
-  const salon = salons[index];
+  const salon = salons.find((item) => item.slug === slug);
   if (!salon) notFound();
   return {
     title: `${salon.name} · Красноярск`,
     description: salon.description,
-    openGraph: { title: salon.name, description: salon.description, images: [salonHero(salon.slug, index)] },
+    openGraph: { title: salon.name, description: salon.description, images: [salonPhoto(salon.slug, 'hero').src] },
     robots: { index: false, follow: false },
   };
 }

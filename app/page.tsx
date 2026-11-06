@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { ArrowUpRight } from 'lucide-react';
 import SalonPage from '../components/SalonPage';
-import { salonHero, photoAtWidth } from '../data/images';
+import { salonPhoto } from '../data/images';
 import { salons } from '../data/salons';
 
 const activeIndex = salons.findIndex(({ slug }) => slug === process.env.SALON_SLUG);
@@ -11,7 +11,7 @@ if (process.env.SALON_SLUG && !active) throw new Error('Неизвестный S
 export const metadata: Metadata = active ? {
   title: `${active.name} · Красноярск`,
   description: active.description,
-  openGraph: { title: active.name, description: active.description, images: [salonHero(active.slug, activeIndex)] },
+  openGraph: { title: active.name, description: active.description, images: [salonPhoto(active.slug, 'hero').src] },
   robots: { index: false, follow: false },
 } : {
   title: 'Салоны красоты · Красноярск',
@@ -34,7 +34,7 @@ export default function Home() {
           <article key={salon.slug}>
             <a className={`preview preview-${i}`} style={{ background: salon.background, color: salon.color }}
               href={`/${salon.slug}/`} aria-label={`Открыть сайт «${salon.name}»`}>
-              <img src={salonHero(salon.slug, i)} srcSet={photoAtWidth(salonHero(salon.slug, i))} sizes="(max-width: 640px) 88vw, 44vw"
+              <img src={salonPhoto(salon.slug, 'hero').src}
                 alt="" loading={i > 1 ? 'lazy' : 'eager'} decoding="async" />
               <div><small>{salon.label}</small><h2>{salon.name}</h2><p>{salon.headline}</p></div>
               <ArrowUpRight />

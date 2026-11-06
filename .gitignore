@@ -2,3 +2,7 @@ node_modules/
 .next/
 out/
 *.tsbuildinfo
+
+/public/salon-photos/
+/.salon-photo-cache.json
+/.salon-photo-build-*/
