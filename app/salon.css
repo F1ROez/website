@@ -1,0 +1,158 @@
+/* Shared interaction styles, followed by the individual art directions. */
+.salon { --line: color-mix(in srgb, currentColor 20%, transparent); }
+.salon .button { min-height: 46px; font-weight: 600; }
+.salon .button svg, .salon .text-link svg { flex: none; }
+.salon .eyebrow { text-transform: uppercase; }
+.salon .hero-copy { min-width: 0; }
+.salon .hero-bottom a:first-child { display: inline-flex; align-items: center; gap: 9px; }
+.salon .hero-image > span, .about-art figcaption {
+  background: #171715db;
+  color: #fff;
+  padding: 6px 9px;
+  width: max-content;
+  opacity: 1;
+  letter-spacing: .05em;
+}
+.skip-link { position: absolute; z-index: 30; top: 10px; left: 10px; padding: 12px; background: #fff; color: #171715; transform: translateY(-150%); }
+.skip-link:focus { transform: translateY(0); }
+.salon .about-art { margin: 0; position: relative; background: color-mix(in srgb, var(--bg), var(--accent) 14%); }
+.about-art figcaption { position: absolute; bottom: 12px; left: 12px; font-size: 10px; }
+.salon .contacts { align-items: center; }
+.contact-map { display: block; border: 0; width: 100%; height: 420px; background: #e6e9e2; }
+.branch-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+.branch-list button {
+  min-height: 44px; padding: 8px 13px; font-size: 13px; color: inherit; background: transparent;
+  border: 1px solid var(--line); cursor: pointer; transition: background .2s, color .2s;
+}
+.branch-list button[aria-pressed="true"] { background: var(--accent); color: #171715; border-color: transparent; font-weight: 600; }
+.branch-list button:hover:not([aria-pressed="true"]) { background: color-mix(in srgb, currentColor 8%, transparent); }
+.address { display: flex; align-items: flex-start; gap: 12px; margin: 23px 0; }
+.address svg { flex: none; margin-top: 2px; }
+.address strong, .address span { display: block; line-height: 1.55; }
+.address span { font-size: 13px; opacity: .8; }
+.contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+.route-link { margin-top: 19px; }
+.salon .services { border-block: 1px solid var(--line); }
+.salon .service { outline-offset: 3px; }
+.salon .price-note { opacity: .8; font-size: 12px; line-height: 1.5; }
+.salon .about p { max-width: 52ch; }
+.salon .hero-image img { object-position: var(--photo-position, center); }
+
+/* Like Me: dark walnut with the full-width salon photograph. */
+.design-0 { --photo-position: 66% 50%; }
+.design-0 .hero-image:after { background: linear-gradient(90deg,#181715 1%,#181715d6 34%,transparent 83%),linear-gradient(0deg,#181715,transparent 27%); }
+.design-0 .service { border-radius: 9px; background: #ffffff05; }
+
+/* Ambassador: bronze frame, serif feature title and a numbered price list. */
+.design-1 { --photo-position: 50% 37%; }
+.design-1 .hero-image { border: 1px solid #d7a46b70; padding: 12px; }
+.design-1 .service { min-height: 150px; border-width: 0 0 1px; padding-inline: 0; }
+.design-1 .services { background: #2b241e; }
+
+/* Rublёva: author-led print composition. */
+.design-2 { --photo-position: 50% 42%; }
+.design-2 .button { color: #fff; }
+.design-2 .hero-image:after, .design-9 .hero-image:after { background: none; }
+.design-2 .hero-copy { max-width: min(48%, 620px); }
+.design-2 .hero h1 { color: #7b382d; }
+.design-2 .service-grid { grid-template-columns: repeat(2, 1fr); }
+.design-2 .service { min-height: 130px; padding: 18px 0; }
+.design-2 .about-art { height: clamp(300px,42vw,520px); }
+
+/* Zerkala: cool full-width image and compact editorial catalogue. */
+.design-3 { --photo-position: 62% 45%; }
+.design-3 .hero-image:after { background: linear-gradient(0deg,#171b20 5%,#171b2022 75%),linear-gradient(90deg,#171b20c9,transparent 80%); }
+.design-3 .hero { padding-bottom: 120px; }
+.design-3 .service { min-height: 165px; background: #272e35; }
+.design-3 .about-art { aspect-ratio: 1; height: auto; }
+
+/* Four Suns: centered title, ochre palette and arch shapes. */
+.design-4 { --photo-position: center 41%; }
+.design-4 .hero-image:after { background: #21180f91; }
+.design-4 .hero h1 { text-wrap: balance; }
+.design-4 .service { background: #352c1f; }
+.design-4 .about-art { border-radius: 48% 48% 4px 4px; }
+
+/* YES: high contrast type, broad cream margins and offset photography. */
+.design-5 { --photo-position: center 46%; }
+.design-5 .button, .design-5 .branch-list button[aria-pressed="true"] { color: #fff; background: #594738; }
+.design-5 .hero-copy { max-width: 52%; }
+.design-5 .hero-image { top: 40px; left: 54%; bottom: 70px; }
+.design-5 .hero-image:after { background: none; }
+.design-5 .services { background: #e8dfd1; }
+.design-5 .service { min-height: 190px; border-width: 0 0 1px; }
+
+/* Karina: a rose palette, arched image and rounded menu. */
+.design-6 { --photo-position: center 36%; }
+.design-6 .button { border-radius: 100px; background: #783f4a; color: #fff; }
+.design-6 .service { border-radius: 18px; background: #fff4; }
+.design-6 .hero-image { border-radius: 48% 48% 0 0; }
+
+/* 4 seasons: expansive interior, sage accents and a wide menu. */
+.design-7 { --photo-position: center 47%; }
+.design-7 .hero-image:after { background: linear-gradient(90deg,#1d2925,transparent 90%),linear-gradient(0deg,#1d2925,transparent 43%); }
+.design-7 .service-grid { gap: 0; }
+.design-7 .service { border: 0; border-top: 1px solid var(--line); }
+.design-7 .services { background: #23332c; }
+
+/* T-Studio: chocolate tones and a geometric two-column catalogue. */
+.design-8 { --photo-position: center 43%; }
+.design-8 .hero-image:after { background: linear-gradient(90deg,#302321 1%,transparent 80%); }
+.design-8 .service { background: #3a2b27; min-height: 165px; }
+.design-8 .about-art { aspect-ratio: 4/3; height: auto; }
+
+/* Zerkalo: quiet greys, hard edges and a compact price list. */
+.design-9 { --photo-position: center 38%; }
+.design-9 .button { background: #242422; color: #fff; border-radius: 0; }
+.design-9 .hero-copy { max-width: 51%; }
+.design-9 .service-grid { grid-template-columns: repeat(2, 1fr); }
+.design-9 .service { min-height: 140px; padding-inline: 0; }
+.design-9 .about { border-block: 1px solid var(--line); }
+
+@media (max-width: 900px) {
+  .salon header { gap: 16px; }
+  .salon h1 { overflow-wrap: break-word; }
+}
+
+@media (max-width: 640px) {
+  .salon header { padding-block: 18px; }
+  .salon .menu { align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+  .salon header nav { top: 100%; }
+  .salon .hero { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding: 0; }
+  .salon .hero-image { position: relative; inset: auto; height: clamp(235px, 74vw, 415px); opacity: 1; border: 0; padding: 0; border-radius: 0; order: 1; }
+  .salon .hero-image:after { background: none; }
+  .salon .hero-image > span { left: 6vw; right: auto; bottom: 12px; }
+  .salon .hero-copy { order: 0; padding: 36px 6vw 30px; max-width: 100%; }
+  .salon .hero-copy .eyebrow { margin-bottom: 16px; }
+  .salon .hero h1 { font-size: clamp(35px, 9.5vw, 56px); }
+  .salon .hero .intro { margin: 18px 0 22px; }
+  .salon .hero .actions { gap: 14px; }
+  .salon .hero-bottom { position: static; padding: 17px 6vw; order: 2; }
+  .salon .hero-bottom a:last-child { display: none; }
+  .salon .mobile-book { bottom: max(12px, env(safe-area-inset-bottom)); }
+  .salon .contact-map { height: 320px; }
+  .design-4 .hero-copy { text-align: center; }
+  .design-4 .hero .actions { align-items: center; }
+  .design-6 .hero-image { width: 75%; margin-inline: auto; border-radius: 50% 50% 0 0; }
+  .salon .service h3 { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 380px) {
+  .salon .service { padding-inline: 12px; }
+  .salon .service h3 { font-size: 19px; }
+  .salon .service > div { gap: 4px; }
+}
+
+.collection .preview:is(.preview-2,.preview-5,.preview-6,.preview-9) img { width: 55%; margin-left: auto; opacity: 1; }
+.collection .preview:is(.preview-2,.preview-5,.preview-6,.preview-9) > div { width: 44%; inset: 18% auto auto 6%; text-shadow: none; }
+.collection .preview:is(.preview-2,.preview-5,.preview-6,.preview-9) :is(small,h2,p,svg) { color: #29251f; }
+.collection .preview-6 img { border-radius: 48% 48% 0 0; }
+.collection .preview-4 > div { text-align: center; inset-inline: 12%; }
+.collection .preview-1 img { width: 56%; margin-left: auto; opacity: .72; }
+.collection .preview-3 > div { inset-block: auto 12%; }
+.collection .preview-5 h2, .collection .preview-9 h2 { font-family: Arial, sans-serif; font-weight: 600; }
+@media (max-width: 640px) {
+  .collection .preview h2 { font-size: clamp(20px, 6vw, 36px); overflow-wrap: anywhere; }
+  .collection .preview p { font-size: clamp(12px, 3.7vw, 18px); }
+  .collection .preview small { font-size: 7px; }
+}

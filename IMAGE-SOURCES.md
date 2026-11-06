@@ -1,14 +1,18 @@
-# Демонстрационные изображения
+# Демонстрационные фотографии
 
-Источник https://images.unsplash.com/ . Имена соответствуют public/images/0.jpg … 9.jpg.
+Фотографии иллюстрируют композицию и услуги. Они не изображают помещения, клиентов или работы салонов Красноярска. Источник — Unsplash. У каждой фотографии в проекте свой ID в `data/images.ts`. Параметры CDN подбирают размер под экран.
 
-- photo-1524504388940-b1c1722653e1
-- photo-1522335789203-aabd1fc54bc9
-- photo-1526045478516-99145907023c
-- photo-1519699047748-de8e457a634e
-- photo-1515372039744-b8f02a3ae446
-- photo-1524250502761-1ac6f2e30d43
-- photo-1488426862026-3ee34a7d66df
-- photo-1517841905240-472988babdf9
-- photo-1515886657613-9f3515b0c78f
-- photo-1487412947147-5cebf100ffc2
+| Изображение | Источник |
+| --- | --- |
+| Интерьер Like Me | [Sean Boyd](https://unsplash.com/photos/9Snkrx_UU6A) |
+| Интерьер YEStwoBEAUTY | [Tile Merchant Ireland](https://unsplash.com/photos/qnppqw_4Cw0) |
+| Интерьер 4 сезона | [Barney Goodman](https://unsplash.com/photos/_Fy7Kq0w6OI) |
+| Иллюстрация стрижки Like Me | [Lindsay Cash](https://unsplash.com/photos/Md_DhaFsnCQ) |
+| Иллюстрация укладки Амбассадора | [Zoe Applbaum](https://unsplash.com/photos/j0143fogXSg) |
+| Иллюстрация стрижки Рублёвой | [Gabriela](https://unsplash.com/photos/151p8tr5jkQ) |
+| Иллюстрация студии Карины Мейской | [Aditya Sethia](https://unsplash.com/photos/jWaK7wl0b1s) |
+| Иллюстрация для 4 сезона | [Vinicius Amano](https://unsplash.com/photos/lK8oXGycy88) |
+| Иллюстрация стрижки T-Студио | [Vinicius Amano](https://unsplash.com/photos/8LwRf02CuPw) |
+| Иллюстрация интерьера Zerkalo | [Unsplash](https://unsplash.com/photos/u-jq0g_ZdZE) |
+
+[Условия Unsplash](https://unsplash.com/license). Остальные портреты перенесены из первой версии коллекции. Перед выпуском от имени салона согласуйте фото с его владельцем.

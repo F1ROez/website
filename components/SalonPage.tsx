@@ -1,3 +1,157 @@
 'use client';
-import {images} from '../data/images';import {useState} from 'react';import {motion,useReducedMotion} from 'motion/react';import {ArrowUpRight,ArrowRight,Menu,X,MapPin} from 'lucide-react';import type {Salon} from '../data/salons';
-export default function SalonPage({salon:s,index:i}:{salon:Salon,index:number}){const [menu,setMenu]=useState(false);const reduced=useReducedMotion();const map=`https://2gis.ru/krasnoyarsk/firm/${s.id}`;return <div className={`salon design-${i}`} style={{'--bg':s.background,'--accent':s.color} as React.CSSProperties}><header><a className="wordmark" href={`/${s.slug}/`}>{s.name}<small>{s.label}</small></a><nav aria-label="Основная навигация" className={menu?'open':''}>{[['Услуги','#services'],['О пространстве','#about'],['Контакты','#contacts']].map(([t,h])=><a key={h} href={h} onClick={()=>setMenu(false)}>{t}</a>)}</nav><a className="button compact" href={s.contact}>{s.action}<ArrowUpRight size={17}/></a><button className="menu" aria-expanded={menu} aria-label={menu?'Закрыть меню':'Открыть меню'} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></header><main><section className="hero"><div className="hero-image"><img src={images[i]} alt="Демонстрационная фотография для визуального направления сайта"/><span>Визуальная концепция · демонстрационное фото</span></div><motion.div className="hero-copy" initial={reduced?false:{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{duration:.65}}><p className="eyebrow">КРАСНОЯРСК / {s.label}</p><h1>{s.headline}</h1><p className="intro">{s.description}</p><div className="actions"><a className="button" href={s.contact}>{s.action}<ArrowUpRight size={20}/></a><a className="text-link" href="#services">Выбрать услугу <ArrowRight size={18}/></a></div></motion.div><div className="hero-bottom"><span><MapPin size={15}/>{s.address}</span><a href="#services">Листайте дальше ↓</a></div></section><motion.section id="services" className="services section" initial={reduced?false:{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.1}}><div className="section-heading"><p className="eyebrow">01 / УСЛУГИ</p><h2>В деталях —<br/><em>ваш новый образ.</em></h2><p>Начните с того, что хочется изменить. Стоимость и детали процедуры уточняйте при записи.</p></div><div className="service-grid">{s.services.map(([name,price],n)=><a className="service" href={s.contact} key={name}><span className="service-number">0{n+1}</span><h3>{name}</h3><div><span>{price}</span><ArrowUpRight size={22}/></div></a>)}</div><small className="price-note">Цены из публичных источников, проверенных 6 ноября 2026. Итоговую стоимость подтверждает салон.</small></motion.section><section id="about" className="about section"><div className="about-art"><img loading="lazy" src={`/images/${i}.jpg`} alt="Демонстрационное изображение, не работа и не интерьер салона"/></div><div><p className="eyebrow">02 / {s.name.toUpperCase()}</p><h2>Место для<br/><em>своего отражения.</em></h2><p>{s.description}</p><p>Обсудите желаемый результат со специалистом. Уточните подходящую услугу, стоимость и удобное время через официальный канал салона.</p><a className="text-link" href={s.contact}>Начать с разговора <ArrowUpRight size={18}/></a><p className="photo-note">Фотографии в этой демонстрации иллюстрируют визуальное направление. Это не портфолио и не фотографии интерьера {s.name}.</p></div></section><section id="contacts" className="contacts section"><div><p className="eyebrow">03 / ДО ВСТРЕЧИ</p><h2>Ваш следующий<br/><em>красивый день.</em></h2><p>Красноярск, {s.address}</p><a className="button" href={s.contact}>{s.action}<ArrowUpRight size={20}/></a></div><div className="map-fallback"><MapPin size={36}/><h3>{s.name}</h3><p>{s.address}</p><p>Интерактивная карта пока не подключена. Точное местоположение и маршрут доступны в официальной карточке.</p><a className="button" href={map} target="_blank" rel="noreferrer">Открыть 2ГИС <ArrowUpRight size={18}/></a></div></section></main><footer><a className="wordmark" href={`/${s.slug}/`}>{s.name}</a><p>Демонстрационный проект · Красноярск</p><a href="/">Все десять сайтов <ArrowUpRight size={16}/></a></footer><a className="mobile-book button" href={s.contact}>{s.action}<ArrowUpRight size={18}/></a></div>}
+
+import { useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import { ArrowRight, ArrowUpRight, MapPin, Menu, X } from 'lucide-react';
+import { images, detailImages, photoAtWidth } from '../data/images';
+import { locations, routeFor } from '../data/locations';
+import { editorials } from '../data/editorials';
+import type { Salon } from '../data/salons';
+
+const nav = [['Услуги', '#services'], ['О салоне', '#about'], ['Контакты', '#contacts']];
+
+export default function SalonPage({ salon, index, standalone = false }: { salon: Salon; index: number; standalone?: boolean }) {
+  const [menu, setMenu] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const reduced = useReducedMotion();
+  const branches = locations[salon.slug];
+  const branch = branches[selected];
+  const editorial = editorials[index];
+  const action = branch.contact ?? salon.contact;
+  const label = branch.action ?? salon.action;
+  const phoneHref = branch.phone ? `tel:${branch.phone.replace(/[^+\d]/g, '')}` : undefined;
+  const primary = branches.length > 1 ? '#contacts' : action;
+  const primaryLabel = branches.length > 1 ? 'Выбрать филиал' : label;
+  const rise = reduced ? false : { opacity: .78, y: 16 };
+
+  return (
+    <div className={`salon design-${index}`} style={{ '--bg': salon.background, '--accent': salon.color } as CSSProperties}>
+      <a className="skip-link" href="#main">К содержанию</a>
+      <header onKeyDown={(event) => {
+        if (event.key === 'Escape' && menu) {
+          setMenu(false);
+          menuButton.current?.focus();
+        }
+      }}>
+        <a className="wordmark" href="#main">{salon.name}<small>{salon.label}</small></a>
+        <nav aria-label="Основная навигация" id="salon-navigation" className={menu ? 'open' : ''}>
+          {nav.map(([name, href]) => <a key={href} href={href} onClick={() => setMenu(false)}>{name}</a>)}
+        </nav>
+        <a className="button compact" href={primary}>{primaryLabel}<ArrowUpRight size={17} /></a>
+        <button className="menu" type="button" ref={menuButton} aria-controls="salon-navigation"
+          aria-expanded={menu} aria-label={menu ? 'Закрыть меню' : 'Открыть меню'} onClick={() => setMenu(!menu)}>
+          {menu ? <X /> : <Menu />}
+        </button>
+      </header>
+
+      <main id="main">
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-image">
+            <img src={images[index]} srcSet={photoAtWidth(images[index])} sizes="(max-width: 640px) 100vw, 90vw"
+              fetchPriority="high" alt={editorial.heroAlt} />
+            <span>Демонстрационное фото</span>
+          </div>
+          <motion.div className="hero-copy" initial={rise} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}>
+            <p className="eyebrow">Красноярск / {salon.label}</p>
+            <h1 id="hero-title">{salon.headline}</h1>
+            <p className="intro">{salon.description}</p>
+            <div className="actions">
+              <a className="button" href={primary}>{primaryLabel}<ArrowUpRight size={20} /></a>
+              <a className="text-link" href="#services">Смотреть услуги <ArrowRight size={17} /></a>
+            </div>
+          </motion.div>
+          <div className="hero-bottom">
+            <a href="#contacts"><MapPin size={15} />{branches.length > 1 ? `Адреса · ${branches.length}` : salon.address}</a>
+            <a href="#services">Листайте дальше ↓</a>
+          </div>
+        </section>
+
+        <section id="services" className="services section" aria-labelledby="services-title">
+          <div className="section-heading">
+            <p className="eyebrow">01 / Услуги</p>
+            <h2 id="services-title">{editorial.servicesTitle}</h2>
+            <p>{editorial.servicesIntro}</p>
+          </div>
+          <div className="service-grid">
+            {salon.services.map(([name, price], i) => (
+              <motion.a className="service" key={name} href={primary} initial={rise} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: .15 }} transition={{ duration: .3, delay: reduced ? 0 : i * .045 }}>
+                <span className="service-number">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{name}</h3>
+                <div><span>{price}</span><ArrowUpRight size={19} /></div>
+              </motion.a>
+            ))}
+          </div>
+          {salon.services.some(([, price]) => price.includes('₽')) &&
+            <small className="price-note">Итоговую стоимость и доступность услуги подтвердит салон при записи.</small>}
+        </section>
+
+        <section id="about" className="about section" aria-labelledby="about-title">
+          <motion.figure className="about-art" initial={reduced ? false : { opacity: .45 }}
+            whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: .6 }}>
+            <img loading="lazy" decoding="async" src={detailImages[index]} srcSet={photoAtWidth(detailImages[index])}
+              sizes="(max-width: 640px) 88vw, 45vw" alt="Иллюстрация парикмахерского направления" />
+            <figcaption>Демонстрационное фото</figcaption>
+          </motion.figure>
+          <div>
+            <p className="eyebrow">02 / {salon.name}</p>
+            <h2 id="about-title">{editorial.aboutTitle}</h2>
+            <p>{editorial.about}</p>
+            {editorial.more && <a className="text-link" href={editorial.more.href} target="_blank" rel="noreferrer">
+              {editorial.more.label}<ArrowUpRight size={17} />
+            </a>}
+          </div>
+        </section>
+
+        <section id="contacts" className="contacts section" aria-labelledby="contacts-title">
+          <div className="contact-copy">
+            <p className="eyebrow">03 / Контакты</p>
+            <h2 id="contacts-title">{branches.length > 1 ? 'Выберите адрес' : 'До встречи'}</h2>
+            {branches.length > 1 && (
+              <div className="branch-list" role="group" aria-label="Филиалы">
+                {branches.map((item, i) => (
+                  <button type="button" aria-pressed={i === selected} key={item.id} onClick={() => setSelected(i)}>
+                    {item.short ?? item.address}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="address" aria-live="polite">
+              <MapPin size={18} />
+              <div><strong>{branch.address}</strong><span>Красноярск{branch.hours && ` · ${branch.hours}`}</span></div>
+            </div>
+            <div className="contact-actions">
+              <a className="button" href={action}>{label}<ArrowUpRight size={18} /></a>
+              {branch.phone && phoneHref && action !== phoneHref &&
+                <a className="text-link" href={phoneHref}>{branch.phone}</a>}
+              {branch.phone && action === phoneHref && <span className="contact-phone">{branch.phone}</span>}
+              {salon.slug === 'zerkalo' && <a className="text-link" href="https://t.me/+79230194638">Telegram</a>}
+              {salon.slug === 'karina-meyskaya' && <a className="text-link" href="https://t.me/+79330269666">Telegram</a>}
+            </div>
+            <a className="text-link route-link" href={routeFor(branch)} target="_blank" rel="noreferrer">
+              Построить маршрут в 2ГИС<ArrowUpRight size={17} />
+            </a>
+          </div>
+          {branch.embed ? (
+            <iframe key={branch.id} className="contact-map" src={branch.embed} title={`Карта 2ГИС · ${branch.address}`}
+              loading="lazy" sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation" />
+          ) : (
+            <div className="map-fallback"><MapPin size={32} /><h3>{branch.address}</h3>
+              <p>Местоположение и маршрут доступны в 2ГИС.</p>
+              <a className="text-link" href={routeFor(branch)} target="_blank" rel="noreferrer">Открыть 2ГИС <ArrowUpRight size={17} /></a>
+            </div>
+          )}
+        </section>
+      </main>
+
+      <footer>
+        <a className="wordmark" href="#main">{salon.name}</a>
+        <p>Демонстрационный проект · Красноярск</p>
+        {!standalone && <a href="/">Галерея сайтов <ArrowUpRight size={16} /></a>}
+      </footer>
+      <a className="mobile-book button" href={primary}>{primaryLabel}<ArrowUpRight size={18} /></a>
+    </div>
+  );
+}
