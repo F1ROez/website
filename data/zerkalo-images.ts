@@ -76,6 +76,11 @@ export function zerkaloContactEye() {
   return existsSync(join(publicDir, path)) ? basePath + path : undefined;
 }
 
+export function zerkaloServicesPhoto() {
+  const path = '/images/services-interior.webp';
+  return existsSync(join(publicDir, path)) ? basePath + path : undefined;
+}
+
 export function zerkaloShareImage() {
   const hero = zerkaloHero();
   return hero && process.env.SITE_URL ? new URL(hero, process.env.SITE_URL).href : hero;

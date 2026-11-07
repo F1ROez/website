@@ -9,6 +9,7 @@
 | Файл | Фото в 2ГИС |
 | --- | --- |
 | `contact-eye.webp` | [Ламинирование ресниц, крупный план](https://i5.photo.2gis.com/photo-gallery/cc912e24-1e0a-49bd-b690-414b01852821.jpg) |
+| `services-interior.webp` | [Стойка и зона ожидания, фон прайса](https://i7.photo.2gis.com/photo-gallery/31bd7787-cfc2-47e6-a2c8-62803e2fe8d4.jpg) |
 | `works/hair/01.webp` | [Светлые волосы до плеч с мягкой линией среза](https://i0.photo.2gis.com/photo-gallery/786db042-4487-4678-bb5c-71d494f8dcd8.jpg) |
 | `works/hair/02.webp` | [Прямые светлые волосы с ровным срезом](https://i3.photo.2gis.com/photo-gallery/6fa58311-7d2d-49c0-9b57-0d8f1ee38e39.jpg) |
 | `works/hair/03.webp` | [Длинные каштановые волосы с плавной линией среза](https://i8.photo.2gis.com/photo-gallery/ef5c107c-d6b8-4913-8209-909a73d10df3.jpg) |
