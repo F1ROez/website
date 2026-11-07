@@ -12,7 +12,7 @@ const links = [
   ['Портфолио', '#works'],
 ];
 
-export function Navigation({ name, booking }: { name: string; booking: string }) {
+export function Navigation({ name, booking, bookingLabel }: { name: string; booking: string; bookingLabel: string }) {
   const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
 
@@ -23,12 +23,12 @@ export function Navigation({ name, booking }: { name: string; booking: string })
         toggle.current?.focus();
       }
     }}>
-      <a className="zk-brand" href="#main" onClick={() => setOpen(false)}>{name}</a>
+      <span className="zk-brand">{name}</span>
       <nav id="zk-nav" className={open ? 'zk-nav is-open' : 'zk-nav'} aria-label="Основная навигация">
         {links.map(([label, href]) => <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>)}
-        <a className="zk-mobile-book" href={booking}>Записаться <ArrowUpRight size={17} /></a>
+        <a className="zk-mobile-book" href={booking}>{bookingLabel} <ArrowUpRight size={17} /></a>
       </nav>
-      <a className="zk-header-book" href={booking}>Записаться <ArrowUpRight size={16} /></a>
+      <a className="zk-header-book" href={booking}>{bookingLabel} <ArrowUpRight size={16} /></a>
       <button className="zk-menu" type="button" ref={toggle} aria-expanded={open} aria-controls="zk-nav"
         aria-label={open ? 'Закрыть меню' : 'Открыть меню'} onClick={() => setOpen(!open)}>
         {open ? <X size={22} /> : <Menu size={22} />}
