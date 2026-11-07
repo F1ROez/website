@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp, ArrowUpRight, MapPin, Star } from 'lucide-react';
-import { locations, widgetFor } from '../data/locations';
+import { locations } from '../data/locations';
 import { zerkaloContactEye, zerkaloHero, zerkaloServicesPhoto, zerkaloWorks } from '../data/zerkalo-images';
 import { zerkaloPrices } from '../data/zerkalo-prices';
 import type { Salon } from '../data/salons';
@@ -9,6 +9,9 @@ import '@fontsource-variable/cormorant-garamond';
 import '@fontsource-variable/cormorant-garamond/wght-italic.css';
 import '@fontsource-variable/manrope';
 import './zerkalo.css';
+
+// 2GIS Map Constructor embed with a single marker at 56.052711, 92.892992.
+const studioMap = 'https://makemap.2gis.ru/widget?data=eJxFj81ugzAQhN9lewyKjJsUjJRDRJU2Ko2gqhqlVQ4GNtSSwcg4oQTl3WtIf_a0mtkdfdOD0jlqzB9QlWi0wAaCjx5MVyMEsEJujhrBgVqrGrUZ_R4yJZW2_g2hvnug1jfCyOFjW751nK6atF0srJxjk2lRG6Eqa8aPywl5ipMjC2dklyZNeJ9ULHTJLnopNmG73oQpibzkZHcS6eQk2uL5NfGj2-XEhp3XVY5fELjkdy4OFFfwbsD6oY6VqIy9z5QtJypuxlKMTn1GGaPO_G5K5tRz3b39FzkElM0uewdKXseqEVfYHiQ3EPzdOiAH-T8FzkqVFsazIbakknL7iSjfR_XAZYOXbysqbKw';
 
 function SectionSeam() {
   return <div className="zk-section-seam" aria-hidden="true"><span /></div>;
@@ -69,7 +72,7 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
               <ZerkaloSocialLinks />
             </Reveal>
             <Reveal className="zk-map">
-              <iframe src={widgetFor(branch)} title={`Карта 2ГИС · ${branch.address}`} loading="lazy"
+              <iframe src={studioMap} title={`Карта 2ГИС · ${branch.address}`} loading="lazy" allowFullScreen
                 sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation" />
               <a href={listing} aria-label="Открыть карту в 2ГИС">
                 <MapPin size={16} aria-hidden="true" /> <span>Открыть в 2ГИС</span> <ArrowUpRight size={16} />
