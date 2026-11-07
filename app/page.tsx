@@ -10,12 +10,13 @@ const activeIndex = salons.findIndex(({ slug }) => slug === process.env.SALON_SL
 const active = salons[activeIndex];
 if (process.env.SALON_SLUG && !active) throw new Error('Неизвестный SALON_SLUG. См. README.md.');
 
-const hero = active?.slug === 'zerkalo' ? zerkaloShareImage() : active && salonPhoto(active.slug, 'hero').src;
+const isZerkalo = active?.slug === 'zerkalo';
+const hero = isZerkalo ? zerkaloShareImage() : active && salonPhoto(active.slug, 'hero').src;
 
 export const metadata: Metadata = active ? {
   title: `${active.name} · Красноярск`,
-  description: active.description,
-  openGraph: { title: active.name, description: active.description, ...(hero ? { images: [hero] } : {}) },
+  description: isZerkalo ? null : active.description,
+  openGraph: { title: active.name, ...(!isZerkalo && { description: active.description }), ...(hero ? { images: [hero] } : {}) },
   robots: { index: false, follow: false },
 } : {
   title: 'Салоны красоты · Красноярск',

@@ -16,11 +16,12 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const salon = salons.find((item) => item.slug === slug);
   if (!salon) notFound();
-  const hero = slug === 'zerkalo' ? zerkaloShareImage() : salonPhoto(slug, 'hero').src;
+  const isZerkalo = slug === 'zerkalo';
+  const hero = isZerkalo ? zerkaloShareImage() : salonPhoto(slug, 'hero').src;
   return {
     title: `${salon.name} · Красноярск`,
-    description: salon.description,
-    openGraph: { title: salon.name, description: salon.description, ...(hero ? { images: [hero] } : {}) },
+    description: isZerkalo ? null : salon.description,
+    openGraph: { title: salon.name, ...(!isZerkalo && { description: salon.description }), ...(hero ? { images: [hero] } : {}) },
     robots: { index: false, follow: false },
   };
 }
