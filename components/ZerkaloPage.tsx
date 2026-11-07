@@ -3,6 +3,7 @@ import { locations, widgetFor } from '../data/locations';
 import { zerkaloContactEye, zerkaloHero, zerkaloServicesPhoto, zerkaloWorks } from '../data/zerkalo-images';
 import { zerkaloPrices } from '../data/zerkalo-prices';
 import type { Salon } from '../data/salons';
+import ZerkaloSocialLinks from './ZerkaloSocialLinks';
 import { HeroBackdrop, Navigation, PriceAccordion, Reveal, WorksGallery } from './ZerkaloInteractions';
 import '@fontsource-variable/cormorant-garamond';
 import '@fontsource-variable/cormorant-garamond/wght-italic.css';
@@ -18,14 +19,13 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
   const phone = branch.phone?.replace(/[^+\d]/g, '');
   const [score, ratingCount] = branch.rating;
   const listing = `https://2gis.ru/krasnoyarsk/firm/${branch.id}`;
-  const photos = `https://2gis.ru/krasnoyarsk/gallery/firm/${branch.id}`;
   const eye = zerkaloContactEye();
   const servicesPhoto = zerkaloServicesPhoto();
 
   return (
     <div className="zk">
       <a className="zk-skip" href="#main">К содержанию</a>
-      <Navigation name={salon.name} booking={salon.contact} />
+      <Navigation name={salon.name} booking={salon.contact} bookingLabel={salon.action} />
       <main id="main">
         <section className="zk-hero" aria-labelledby="zk-title">
           <HeroBackdrop src={zerkaloHero()} />
@@ -34,7 +34,7 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
             <p className="zk-kicker zk-enter">Бьюти-студия <span /> Красноярск</p>
             <h1 id="zk-title" className="zk-enter">{salon.name}</h1>
             <p className="zk-hero-line zk-enter">{salon.headline}</p>
-            <a className="zk-cta zk-enter" href={salon.contact}>Записаться <ArrowUpRight size={20} /></a>
+            <a className="zk-cta zk-enter" href={salon.contact}>{salon.action} <ArrowUpRight size={20} /></a>
           </div>
           <div className="zk-hero-bottom">
             <a href="#contacts">{salon.address}</a>
@@ -65,8 +65,8 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
               {phone && <a className="zk-phone" href={`tel:${phone}`}>{branch.phone}</a>}
               <div className="zk-contact-actions">
                 <a className="zk-cta" href={salon.contact}>{salon.action} <ArrowUpRight size={20} /></a>
-                <a className="zk-link" href="https://t.me/+79230194638">Запись в Telegram <ArrowUpRight size={16} /></a>
               </div>
+              <ZerkaloSocialLinks />
             </Reveal>
             <Reveal className="zk-map">
               <iframe src={widgetFor(branch)} title={`Карта 2ГИС · ${branch.address}`} loading="lazy"
@@ -90,7 +90,6 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
               <p className="zk-index"><b>02</b> Услуги и цены</p>
               <h2 id="zk-services-title">Меню <em>студии</em></h2>
               <p>Выберите категорию, чтобы посмотреть услуги и стоимость.</p>
-              <a className="zk-link" href={`${listing}/tab/prices`}>Прайс в 2ГИС <ArrowUpRight size={16} /></a>
             </Reveal>
             <div className="zk-price">
               <PriceAccordion groups={zerkaloPrices} />
@@ -104,7 +103,6 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
           <Reveal className="zk-wrap zk-works-head">
             <p className="zk-index"><b>03</b> Портфолио</p>
             <h2 id="zk-works-title">Наши <em>работы</em></h2>
-            <a className="zk-link" href={photos}>Фото студии в 2ГИС <ArrowUpRight size={16} /></a>
           </Reveal>
           <WorksGallery category="hair" label="Стрижки" number="01" images={zerkaloWorks('hair')} />
           <WorksGallery category="nails" label="Ногти" number="02" images={zerkaloWorks('nails')} />
