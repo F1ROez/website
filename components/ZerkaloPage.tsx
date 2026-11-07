@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUp, ArrowUpRight, MapPin, Star } from 'lucide-react';
 import { locations, widgetFor } from '../data/locations';
-import { zerkaloContactEye, zerkaloHero, zerkaloWorks } from '../data/zerkalo-images';
+import { zerkaloContactEye, zerkaloHero, zerkaloServicesPhoto, zerkaloWorks } from '../data/zerkalo-images';
 import { zerkaloPrices } from '../data/zerkalo-prices';
 import type { Salon } from '../data/salons';
 import { HeroBackdrop, Navigation, PriceAccordion, Reveal, WorksGallery } from './ZerkaloInteractions';
@@ -9,6 +9,10 @@ import '@fontsource-variable/cormorant-garamond/wght-italic.css';
 import '@fontsource-variable/manrope';
 import './zerkalo.css';
 
+function SectionSeam() {
+  return <div className="zk-section-seam" aria-hidden="true"><span /></div>;
+}
+
 export default function ZerkaloPage({ salon }: { salon: Salon }) {
   const branch = locations.zerkalo[0];
   const phone = branch.phone?.replace(/[^+\d]/g, '');
@@ -16,6 +20,7 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
   const listing = `https://2gis.ru/krasnoyarsk/firm/${branch.id}`;
   const photos = `https://2gis.ru/krasnoyarsk/gallery/firm/${branch.id}`;
   const eye = zerkaloContactEye();
+  const servicesPhoto = zerkaloServicesPhoto();
 
   return (
     <div className="zk">
@@ -39,6 +44,7 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
         </section>
 
         <section id="contacts" className="zk-contacts" aria-labelledby="zk-contacts-title">
+          <SectionSeam />
           {eye && (
             <div className="zk-contact-art" aria-hidden="true">
               <img src={eye} alt="" loading="lazy" decoding="async" />
@@ -73,6 +79,12 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
         </section>
 
         <section id="services" className="zk-services" aria-labelledby="zk-services-title">
+          <SectionSeam />
+          {servicesPhoto && (
+            <div className="zk-services-art" aria-hidden="true">
+              <img src={servicesPhoto} alt="" loading="lazy" decoding="async" />
+            </div>
+          )}
           <div className="zk-wrap zk-services-grid">
             <Reveal className="zk-services-heading">
               <p className="zk-index"><b>02</b> Услуги и цены</p>
@@ -88,6 +100,7 @@ export default function ZerkaloPage({ salon }: { salon: Salon }) {
         </section>
 
         <section id="works" className="zk-works" aria-labelledby="zk-works-title">
+          <SectionSeam />
           <Reveal className="zk-wrap zk-works-head">
             <p className="zk-index"><b>03</b> Портфолио</p>
             <h2 id="zk-works-title">Наши <em>работы</em></h2>
