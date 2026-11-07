@@ -82,8 +82,15 @@ export function zerkaloServicesPhoto() {
 }
 
 export function zerkaloShareImage() {
-  const hero = zerkaloHero();
-  return hero && process.env.SITE_URL ? new URL(hero, process.env.SITE_URL).href : hero;
+  const path = '/images/home-preview.jpg';
+  if (!existsSync(join(publicDir, path))) return undefined;
+  const src = basePath + path;
+  return {
+    url: process.env.SITE_URL ? new URL(src, process.env.SITE_URL).href : src,
+    width: 1348,
+    height: 936,
+    alt: 'Первый экран сайта Zerkalo',
+  };
 }
 
 export function zerkaloWorks(category: 'hair' | 'nails') {
